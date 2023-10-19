@@ -1,0 +1,41 @@
+<!-- <p>login works!</p> -->
+<router-outlet></router-outlet>
+<div class="parent">
+    <div class="image-div">
+        <img src="assets/home.jpg" alt="YourImage"/>
+      </div>
+    <div class="form-div">
+        <div clss="heading">
+            <span>Get Started with BETA Field Force</span><br/>
+        </div>
+   <br/>
+     <div class="form">
+        <form [formGroup]="loginForm">
+        <div class="form-group" >
+          
+            <mat-form-field >
+                <mat-label>Email Id / Mobile No</mat-label>
+                <input matInput type="text" placeholder="Email Id / Mobile No" formControlName="username" numbersOnly  
+                    autocomplete="off"/>
+                    <mat-error style="color: red;" *ngIf="username && username.invalid && username.touched">This field is required</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="form-group">
+            <mat-form-field>
+                <mat-label>password</mat-label>
+                <input matInput type="text"  placeholder="Enter password" 
+                    formControlName="password" autocomplete="off" />
+                    <mat-error style="color: red;" *ngIf="password && password.invalid && password.touched">This field is required</mat-error>
+            </mat-form-field>
+            <br/>
+            <button mat-raised-button color="primary" (click)="submit()">Primary</button>
+          
+          
+        </div>
+       </form>
+    </div> 
+       
+
+    </div>
+</div>

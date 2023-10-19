@@ -1,0 +1,284 @@
+<!-- <p>add-task works!</p> -->
+<!-- <router-outlet></router-outlet> -->
+
+
+
+
+
+<div>header</div>
+<mat-tab-group>
+    <mat-tab label="Assign to Others"> 
+        <div>
+            <div class="close-icon">
+                <img src="assets/cancel.svg" alt="no-img" (click)="close()">
+             </div>
+             <div>
+                <form [formGroup]="addForm">
+           
+            <div class="row">
+               
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <mat-form-field class="field">
+                            <mat-label>Title*</mat-label>
+                            <input  matInput formControlName="title">
+                            <mat-error style="color:rgb(236, 66, 95);" *ngIf="title && title.invalid && title.touched">
+                                <ng-container *ngIf="title.hasError('required')">This field is required</ng-container>
+                                <ng-container *ngIf="title.hasError('pattern')">Title should contain only alphabetical characters</ng-container>
+                            
+                            </mat-error>
+                            
+                        </mat-form-field>
+                        
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <mat-label>Description*</mat-label>
+                            <textarea matInput formControlName="Description"></textarea>
+                            <mat-error style="color:rgb(236, 66, 95);" *ngIf="Description && Description.invalid && Description.touched">description  is required</mat-error>
+                          </mat-form-field>
+                              
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label for="img">upload </label>
+                        <input if="img" (change)="onFileSelect($event)" accept="/*" formControlName="image" type="file">
+                        <!-- <mat-error style="color:rgb(236, 66, 95);" *ngIf="image && image.invalid && image.touched">image  is required</mat-error> -->
+        
+                        <!-- <mat-form-field class="field"> -->
+                            <!-- <mat-label>Attach File</mat-label>
+                            <input matInput formContolName="image" [value]="attachFileValue" (change)="onFileSelect($event)" accept="/*"
+                            (click)="onOpenFile()"> -->
+        <!--                    
+                        </mat-form-field> -->
+                               
+                    </div>
+                </div>
+           
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <mat-form-field class="field">
+                            <mat-select formControlName="leadId">
+                                <mat-option *ngFor="let lead of leadFilter" [value]="lead.Id">
+                                    {{lead.LeadName}}
+                                </mat-option>
+                              </mat-select>
+                            <mat-label>Lead/Customer Name</mat-label>
+                            <!-- <input matInput formControlName="leadId"> -->
+                            <!-- <mat-option *ngFor="let lead of leadFilter" [value]="lead.Id">
+                                {{lead.LeadName}}
+                            </mat-option> -->
+                            <!-- <mat-error style="color:rgb(236, 66, 95);" *ngIf="leadCustName && leadCustName.invalid && leadCustName.touched">leadCustName  is required</mat-error> -->
+        
+                        </mat-form-field>
+                              
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <mat-form-field class="field">
+                            <input matInput [matDatepicker]="picker" placeholder="Select Due Date*" [min]="current"
+                            formControlName="TaskEndDateDisplay" (click)="picker.open()" readonly/>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error align="start">Please enter
+                            <strong>Due Date</strong></mat-error>
+                        <input matInput formControlName="TaskEndDate" hidden />
+                            
+                        </mat-form-field>
+                              
+                    </div>
+                </div>
+          
+        
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <mat-form-field class="field">
+                           
+                            <mat-label>Select Priority</mat-label>
+                            <mat-select formControlName="priority">
+                              <mat-option value="one">First option</mat-option>
+                              <mat-option value="two">Second option</mat-option>
+                            </mat-select>
+        
+                    <!-- <mat-error style="color:rgb(236, 66, 95);" *ngIf="priority && priority.invalid && priority.touched">priority  is required</mat-error> -->
+        
+                        </mat-form-field>
+                               
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                          <!-- blank -->
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <mat-form-field class="field">
+                            <mat-label>Add Users*</mat-label>
+                            <input  matInput formControlName="UserDisplayIds"  (click)="openMembers('UserIds')">
+                          
+                              <ul>
+                                <!-- <li *ngFor="let member of allMembers">{{ member.Name }}</li> -->
+                              </ul>
+                     <!-- <mat-error style="color:rgb(236, 66, 95);" *ngIf="users && users.invalid && users.touched">users  is required</mat-error> -->
+                     <input matInput formControlName="UserIds" hidden />
+                        </mat-form-field>
+                              
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <mat-form-field class="field">
+                            <mat-label>Add CC Members</mat-label>
+                            <input  matInput formControlName="TaskDisplayOwners" (click)="openMembers('TaskOwners')">
+                          
+                            <mat-error style="color:rgb(236, 66, 95);" *ngIf="ccMembers && ccMembers.invalid && ccMembers.touched">ccMembers  is required</mat-error>
+                            <input matInput formControlName="TaskOwners" hidden />
+                        </mat-form-field>
+                            
+                    </div>
+                </div>
+            </div>
+            </form>
+        </div>
+        </div>
+        
+    </mat-tab>
+    <mat-tab label="Assign to Me"> 
+        <div>
+            <div class="close-icon">
+                <img src="assets/cancel.svg" alt="no-img" (click)="close()">
+             </div>
+             <div>
+                <form [formGroup]="addForm">
+           
+            <div class="row">
+               
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <mat-form-field class="field">
+                            <mat-label>Title*</mat-label>
+                            <input  matInput formControlName="title">
+                            <mat-error style="color:rgb(236, 66, 95);" *ngIf="title && title.invalid && title.touched">
+                                <ng-container *ngIf="title.hasError('required')">This field is required</ng-container>
+                                <ng-container *ngIf="title.hasError('pattern')">Title should contain only alphabetical characters</ng-container>
+                            
+                            </mat-error>
+                            
+                        </mat-form-field>
+                        
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <mat-label>Description*</mat-label>
+                            <textarea matInput formControlName="Description"></textarea>
+                            <mat-error style="color:rgb(236, 66, 95);" *ngIf="Description && Description.invalid && Description.touched">description  is required</mat-error>
+                          </mat-form-field>
+                              
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label for="img">upload </label>
+                        <input if="img" (change)="onFileSelect($event)" accept="/*" formControlName="image" type="file">
+                        <!-- <mat-error style="color:rgb(236, 66, 95);" *ngIf="image && image.invalid && image.touched">image  is required</mat-error> -->
+        
+                        <!-- <mat-form-field class="field"> -->
+                            <!-- <mat-label>Attach File</mat-label>
+                            <input matInput formContolName="image" [value]="attachFileValue" (change)="onFileSelect($event)" accept="/*"
+                            (click)="onOpenFile()"> -->
+        <!--                    
+                        </mat-form-field> -->
+                               
+                    </div>
+                </div>
+           
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <mat-form-field class="field">
+                            <mat-select formControlName="leadId">
+                                <mat-option *ngFor="let lead of leadFilter" [value]="lead.Id">
+                                    {{lead.LeadName}}
+                                </mat-option>
+                              </mat-select>
+                            <mat-label>Lead/Customer Name</mat-label>
+                            <!-- <input matInput formControlName="leadId"> -->
+                            <!-- <mat-option *ngFor="let lead of leadFilter" [value]="lead.Id">
+                                {{lead.LeadName}}
+                            </mat-option> -->
+                            <!-- <mat-error style="color:rgb(236, 66, 95);" *ngIf="leadCustName && leadCustName.invalid && leadCustName.touched">leadCustName  is required</mat-error> -->
+        
+                        </mat-form-field>
+                              
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <mat-form-field class="field">
+                            <input matInput [matDatepicker]="picker" placeholder="Select Due Date*" [min]="current"
+                            formControlName="TaskEndDateDisplay" (click)="picker.open()" readonly/>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error align="start">Please enter
+                            <strong>Due Date</strong></mat-error>
+                        <input matInput formControlName="TaskEndDate" hidden />
+                            
+                        </mat-form-field>
+                              
+                    </div>
+                </div>
+          
+        
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <mat-form-field class="field">
+                            <!-- <mat-label>Select Priority</mat-label>
+                            <input  matInput formContolName="priority"> -->
+                            <mat-label>Select Priority</mat-label>
+                            <mat-select formControlName="priority">
+                              <mat-option value="one">First option</mat-option>
+                              <mat-option value="two">Second option</mat-option>
+                            </mat-select>
+        
+                    <!-- <mat-error style="color:rgb(236, 66, 95);" *ngIf="priority && priority.invalid && priority.touched">priority  is required</mat-error> -->
+        
+                        </mat-form-field>
+                               
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                          <!-- blank -->
+                </div>
+               
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <mat-form-field class="field">
+                            <mat-label>Add CC Members</mat-label>
+                            <input  matInput formControlName="TaskDisplayOwners" (click)="openMembers('TaskOwners')">
+                         
+                           
+                            <mat-error style="color:rgb(236, 66, 95);" *ngIf="ccMembers && ccMembers.invalid && ccMembers.touched">ccMembers  is required</mat-error>
+                            <input matInput formControlName="TaskOwners" hidden />
+                        </mat-form-field>
+                            
+                    </div>
+                </div>
+            </div>
+            </form>
+        </div>
+        </div>
+    </mat-tab>
+   
+  </mat-tab-group>
+
+
+<div>
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>Cancel</button>
+        <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="submit()">Add</button>
+      </mat-dialog-actions>
+</div>

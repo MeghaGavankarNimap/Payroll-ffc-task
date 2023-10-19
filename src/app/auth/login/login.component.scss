@@ -1,0 +1,56 @@
+html, body {
+    height: 100%;
+    margin: 0;
+  }
+
+
+.parent{
+    // background-color: antiquewhite;
+    height: 100%;
+  display: flex;
+ 
+}
+    
+.image-div{
+  
+    flex-direction: column;
+    flex: 1;
+    border: 1px solid black; /* Optional: Add borders for visualization */
+    text-align: center; /* Optional: Center content horizontally */
+    display: flex;
+    align-items: center; 
+}
+
+.image-div img {
+  max-width: 100%; /* This makes the image take up the full width of its parent */
+  max-height: 100%; /* This makes the image take up the full height of its parent */
+  height:100vh;
+}
+
+.form-div{
+   
+    flex: 1;
+  border: 1px solid black; /* Optional: Add borders for visualization */
+  text-align: center; /* Optional: Center content horizontally */
+  display: flex;
+  
+}
+
+
+.form-group{
+    margin-top: 40px;
+    align-items: center; 
+  justify-content: center;
+
+}
+.heading{
+  position: absolute;
+  margin-top: 20px;
+  left: 0;
+  right: 20px;
+}
+
+.form{
+  justify-content: center;
+  align-items: center;
+}

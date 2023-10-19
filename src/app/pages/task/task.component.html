@@ -1,0 +1,42 @@
+<!-- <p>task works!</p> -->
+<!-- <p>task-list works!</p> -->
+<button mat-raised-button (click)="openDialog()">Add Task</button>
+
+
+<mat-tab-group>
+    <mat-tab >
+        <ng-template mat-tab-label>
+            My Task
+        </ng-template>
+        <ng-template matTabContent>
+            <app-my-task ></app-my-task>
+        </ng-template>  
+    </mat-tab>
+    <mat-tab> 
+        <ng-template mat-tab-label>
+            CC
+        </ng-template>
+        <ng-template matTabContent>
+            <app-cc ></app-cc>
+        </ng-template>
+    </mat-tab>
+    <mat-tab >
+        <ng-template mat-tab-label>
+            Assigned By Me
+        </ng-template>
+        <ng-template matTabContent>
+            <app-assigned-by-me ></app-assigned-by-me>
+        </ng-template>
+       </mat-tab>
+    <mat-tab > 
+        <ng-template mat-tab-label>
+            Archive List
+        </ng-template>
+        <ng-template matTabContent>
+            <app-archive-list ></app-archive-list>
+        </ng-template>
+       </mat-tab>
+  </mat-tab-group>
+  
+<!-- <router-outlet></router-outlet> -->
+<!-- [userData]="currentUser" [searchData]="searchInput.value" [filterData]="filterData" -->
