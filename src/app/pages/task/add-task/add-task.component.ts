@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -11,6 +11,9 @@ import { AuthInterceptor } from 'src/app/shared/auth/auth.interceptor';
 import { map } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 import { CustomPipePipe } from 'src/app/base/pipes/custom-pipe.pipe';
+import { ToastrService } from 'ngx-toastr';
+import { TabConditionComponent } from '../tab-condition/tab-condition.component';
+import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 
 
 
@@ -34,16 +37,18 @@ export class AddTaskComponent implements OnInit {
   allMembers:any
   imageValid:any
   url="assets/cancel.svg"
-  taskOwners: any = [];
+  taskOwners:any = [];
   userIds: any = [];
   memberLength: number = 0;
   userLength: number = 0;
   assignedToCount:any
   current = new Date();
   isActive: boolean = true;
-
+  IntercomGroupIds=[]
   result:any
- 
+  index = 0;
+  indexOld = 0;
+
   taskOwnerCount:any
   pageData = {
     From: 1,
@@ -55,7 +60,11 @@ export class AddTaskComponent implements OnInit {
   selectedIndex: number = 0;
   userDetails: any;
  formattedDate:any;
+ currentTabIndex=0
+ @ViewChild('tabGroup') tabGroup!: MatTabGroup ; 
+ @ViewChildren('tab') tabs: QueryList<ElementRef> | undefined;
 
+ 
   constructor(
    
     public dialogRef: MatDialogRef<AddTaskComponent>,
@@ -64,13 +73,14 @@ export class AddTaskComponent implements OnInit {
     public dialog:MatDialog,
     private taskService:TaskService,
     private datePipe: DatePipe,
-    private customDatePipe: CustomPipePipe
+    private customDatePipe: CustomPipePipe,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
     this.initForm()
-    this.getLeadList();
-   
+    // this.getLeadList();
+  
 
     // this.taskService.imageData$.subscribe((data) => {
     //   console.log(data)
@@ -78,6 +88,12 @@ export class AddTaskComponent implements OnInit {
     // });
   }
   
+  change(tab: any, index: number) {
+    if (tab.selectedIndex != this.indexOld && confirm(' Are you sure you want to switch to the next tab without submitting the form?')) {
+      this.index = index;
+      this.indexOld = index;
+    } else tab.selectedIndex = this.indexOld;
+  }
     
     initForm(){
       const userDetailsJson = localStorage.getItem('userdetails');
@@ -97,23 +113,30 @@ export class AddTaskComponent implements OnInit {
         AssignedToUserId: [''],
         AssignedDate: [''],
         CompletedDate: [''],
-        // IntercomGroupIds: [this.IntercomGroupIds],
-        // IsActive: [this.isActive],
-        title:['',Validators.compose([Validators.required,Validators.pattern(/^[A-Za-z ]+$/)])],
+         IntercomGroupIds: [''],
+         Latitude: [''],
+        Title:['',Validators.compose([Validators.required,Validators.pattern(/^[A-Za-z ]+$/)])],
         Description:['',Validators.compose([Validators.required])],
-        image:['',Validators.compose([Validators.required])],
+        Image:['',Validators.compose([Validators.required])],
    
-      
-        priority:['',Validators.compose([Validators.required])],
+        IsActive: [this.isActive],
+        Priority:['',Validators.compose([Validators.required])],
      
-        leadId:[''],
+        LeadId:[''],
 
         TaskEndDateDisplay: ['', Validators.required],
         TaskEndDate: [''],
         UserDisplayIds:['',Validators.compose([Validators.required])],
         UserIds:[''],
         TaskDisplayOwners:['',Validators.compose([Validators.required])],
-        TaskOwners:['']
+        TaskOwners:[[]],
+        Location: [''],
+Longitude: [''],
+MultimediaData: [''],
+MultimediaExtension:[''],
+MultimediaFileName: [''],
+MultimediaType: [''],
+TaskStatus: ['']
         
       })
 
@@ -126,8 +149,10 @@ export class AddTaskComponent implements OnInit {
     }
 
 
-    get title(){
-      return this.addForm.get('title')
+   
+
+    get Title(){
+      return this.addForm.get('Title')
     
 
     }
@@ -136,8 +161,8 @@ export class AddTaskComponent implements OnInit {
     
 
     }
-    get image(){
-      return this.addForm.get('image')
+    get Image(){
+      return this.addForm.get('Image')
     
 
     }
@@ -151,8 +176,8 @@ export class AddTaskComponent implements OnInit {
     
 
     }
-    get priority(){
-      return this.addForm.get('priority')
+    get Priority(){
+      return this.addForm.get('Priority')
     
 
     }
@@ -167,6 +192,25 @@ export class AddTaskComponent implements OnInit {
 
     }
 
+    titleTouched = false;
+
+// ...
+
+onTitleInput() {
+  this.titleTouched = true;
+}
+
+    // showNumberError = false;
+
+// onTitleInput() {
+//   const titleValue = this.addForm.get('Title');
+//  if (titleValue) {
+//     const value = titleValue.value;
+//     const containsNumber = /[0-9]/.test(value);
+//     this.showNumberError = containsNumber;
+//    this. showNumberError=true
+//   }
+// } 
   close():void{
     return this.dialogRef.close();
   }
@@ -189,7 +233,7 @@ export class AddTaskComponent implements OnInit {
 
   
   onFileSelect(event:any){
-    console.log("hello")
+    console.log("hello"+event.target.value)
     let fileType = event.target.files[0].type;
     // let size = event.target.files[0].size;
     if (fileType.match(/image\/*/)) {
@@ -317,13 +361,15 @@ export class AddTaskComponent implements OnInit {
         this.taskOwners = [];
         this.taskOwnerCount = 0
         allUSer.forEach((result: any) => {
-         
-            this.taskOwnerCount+=1;
-              this.taskOwners.push(result);
           
-
+          this.taskOwners.push(result);
+          
+          this.taskOwnerCount+=1;
+          
+          
         })
-       
+        this.addForm.get('TaskOwners')?.patchValue(this.taskOwners);
+        console.log(this.taskOwners)
       }
       this.memberLength = this.taskOwners.length;
       if (this.taskOwners.length <= 1 && controlname == controls.TaskDisplayOwners) {
@@ -344,7 +390,7 @@ export class AddTaskComponent implements OnInit {
 
 
 
-      getLeadList(){
+      // getLeadList(){
         // this.taskService.CustomerList(this.pageData)
         // .pipe(map(res => {
         //   console.log(res)
@@ -357,7 +403,7 @@ export class AddTaskComponent implements OnInit {
   
         // ))
         // .subscribe()
-      }
+      // }
 
 
       // submit(){
@@ -489,6 +535,7 @@ export class AddTaskComponent implements OnInit {
              
                 this.dialogRef.close({ res });
                 console.log(res)
+                this.toastr.success('success');
               
     
             })).subscribe();
@@ -500,14 +547,47 @@ export class AddTaskComponent implements OnInit {
 
 
 
+      // onTabChange(event: MatTabChangeEvent) {
+    
+      //   if (event.index === 1) {
+         
+      //     const dialogRef = this.dialog.open(TabConditionComponent);
+    
+          
+      //     dialogRef.afterClosed().subscribe(result => {
+      //       if (result) {
+              
+              
+      //       } else {
+             
+      //       }
+      //     });
+      //   }
 
-
-
+        onTabChange(event: MatTabChangeEvent) {
+          if (event.index === 1) {
+            const dialogRef = this.dialog.open(TabConditionComponent);
+        
+            dialogRef.afterClosed().subscribe(result => {
+              if (!result) {
+               
+                this.currentTabIndex = 0;
+              }
+            });
+          } else {
+       
+            this.currentTabIndex = event.index;
+          }
 
 
 
 }
+ 
 
-
+}
     
+
+function preventTabChange(event: MatTabChangeEvent, Event: { new(type: string, eventInitDict?: EventInit | undefined): Event; prototype: Event; readonly NONE: 0; readonly CAPTURING_PHASE: 1; readonly AT_TARGET: 2; readonly BUBBLING_PHASE: 3; }, tabToPrevent: any, number: any) {
+  throw new Error('Function not implemented.');
+}
 

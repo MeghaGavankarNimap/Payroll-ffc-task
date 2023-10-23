@@ -1,0 +1,7 @@
+<!-- <p>archive-dialog works!</p> -->
+<p>Do you want to archive this Task?</p>
+
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">No Thanks</button>
+    <button mat-button  [mat-dialog-close]="true" cdkFocusInitial>Ok</button>
+  </div>

@@ -1,0 +1,19 @@
+<!-- <p>view-task-coverage works!</p> -->
+<div class="kt-portlet">
+    <div class="close-icon">
+        <img src="assets/cancel.svg" alt="no-img" (click)="close()">
+     </div>
+	<div class="kt-form">
+		<div class="kt-portlet__body">
+			<div class="form-group kt-form__group row">
+				<div class="col-12 kt-margin-b-10 " *ngFor="let task of taskCoverage">
+                    <span class="taskName">{{task.Name}}</span>
+                    <span class="float-right taskName">{{task.Count}}%</span>
+                   
+                </div>
+			</div>
+		</div>
+		
+	</div>
+</div>
+

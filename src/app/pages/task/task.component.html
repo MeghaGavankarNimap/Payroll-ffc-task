@@ -1,8 +1,15 @@
 <!-- <p>task works!</p> -->
 <!-- <p>task-list works!</p> -->
+
 <button mat-raised-button (click)="openDialog()">Add Task</button>
 
+<button mat-raised-button (click)="logout()">Logout</button>
 
+<div class="">
+    <mat-form-field class="mat-form-field-fluid kt-search-width">
+        <input matInput  #input placeholder="Search">
+    </mat-form-field>
+</div><br>
 <mat-tab-group>
     <mat-tab >
         <ng-template mat-tab-label>
@@ -25,7 +32,7 @@
             Assigned By Me
         </ng-template>
         <ng-template matTabContent>
-            <app-assigned-by-me ></app-assigned-by-me>
+            <app-assigned-by-me  ></app-assigned-by-me>
         </ng-template>
        </mat-tab>
     <mat-tab > 

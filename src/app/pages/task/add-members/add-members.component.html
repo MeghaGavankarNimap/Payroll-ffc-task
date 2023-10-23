@@ -23,4 +23,8 @@
     <mat-option *ngFor="let topping of allData" [value]="topping">{{topping.Name}}</mat-option>
   </mat-select>
 </mat-form-field>
-<button type="button" (click)="close()">Done</button>
+<div class="kt-form__actions kt-form__actions--sm">
+  <button (click)="close()" type="button" mat-raised-button> Cancel</button>&nbsp;
+  <button (click)="onSubmit()" type="button" mat-raised-button color="primary" [disabled]="viewLoading">
+      Done</button>
+</div>

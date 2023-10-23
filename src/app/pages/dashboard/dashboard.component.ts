@@ -14,7 +14,7 @@ export class DashboardComponent implements OnInit {
   }
  
   onClick(){
-     this.router.navigate(['pages/task/'])
+     this.router.navigate(['pages/task'])
   }
 
 }

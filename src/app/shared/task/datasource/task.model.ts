@@ -1,0 +1,50 @@
+export class TaskModel {
+	RowNumber: number | undefined;
+	TaskId: number | undefined;
+	Title: string | undefined;
+	Description: string| undefined;
+	AssignedByUserId: number| undefined;
+	AssignedByUserName: string| undefined;
+	TaskEndDate: string| undefined;
+	Priority: string| undefined;
+	TaskStatus: number| undefined;
+	MultimediaType: string| undefined;
+	MultimediaName: string| undefined;
+	AssignedToUserId: number| undefined;
+	AssignedToUserName: string| undefined;
+	TaskCommentCount: number| undefined;
+	CreateDate: string| undefined;
+	CompletedDate: string| undefined;
+	IsArchive: boolean| undefined;
+	Latitude: number| undefined;
+	Longitude: number| undefined;
+	Location: string| undefined;
+	IntercomGroupId: number| undefined;
+	MultimediaModifiedDate: string| undefined;
+	CompletionPercentage: number| undefined;
+	// clear() {
+	// 	this.RowNumber = null;
+	// 	this.TaskId = null;
+	// 	this.Title =  "";
+	// 	this.Description = "";
+	// 	this.AssignedByUserId = null;
+	// 	this.AssignedByUserName = "";
+	// 	this.TaskEndDate = "";
+	// 	this.Priority = "";
+	// 	this.TaskStatus = null;
+	// 	this.MultimediaType = "";
+	// 	this.MultimediaName = "";
+	// 	this.AssignedToUserId = null;
+	// 	this.AssignedToUserName = "";
+	// 	this.TaskCommentCount = null;
+	// 	this.CreateDate = "";
+	// 	this.CompletedDate = "";
+	// 	this.IsArchive = null;
+	// 	this.Latitude = null;
+	// 	this.Longitude = null;
+	// 	this.Location = "";
+	// 	this.IntercomGroupId = null;
+	// 	this.MultimediaModifiedDate = "";
+	// 	this.CompletionPercentage = null;
+	// }
+}

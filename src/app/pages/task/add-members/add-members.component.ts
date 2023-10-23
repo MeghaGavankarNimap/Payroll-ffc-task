@@ -59,29 +59,32 @@ export class AddMembersComponent implements OnInit {
 
  
 
- close(){
+ onSubmit(){
   const selectedValues = this.toppings.value;
   this.dialogRef.close(selectedValues);
   // console.log(selectedValues)
  }
 
-
+ close(){
+  this.dialogRef.close();
+ }
 
 
  searchMember(searchValue: any) {
-  // this.viewLoading = true;
-  // this.taskService.MembersList(1, this.totalRecords, searchValue)
-  //   .pipe(
-  //     map(members => {
-  //       this.memberList = members.data.Members;
-  //       if (this.memberList == undefined) {
-  //         this.noRecords = true
-  //       }
-  //       else {
-  //         this.noRecords = false;
-  //       }
-  //     })
-  //   ).subscribe();
-  // this.viewLoading = false;
+  this.viewLoading = true;
+  this.taskService.MembersList(1, this.totalRecords, searchValue)
+    .pipe(
+      map((members:any) => {
+        console.log(members)
+        this.memberList = members.data.Members;
+        if (this.memberList == undefined) {
+          this.noRecords = true
+        }
+        else {
+          this.noRecords = false;
+        }
+      })
+    ).subscribe();
+  this.viewLoading = false;
 }
 }

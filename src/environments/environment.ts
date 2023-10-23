@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrl:"https://testffc.nimapinfotech.com/api/account/authenticate"
+  // baseUrl:"https://testffc.nimapinfotech.com/api/account/authenticate"
 };
 
 /*

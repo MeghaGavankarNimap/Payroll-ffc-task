@@ -1,0 +1,34 @@
+.highlight{
+    color: #5d78ff;
+}
+
+.highlight:hover{
+    cursor: pointer;
+}
+
+.action-btn{
+    height: 20px;
+}
+
+.mat-column-AssignedBy {
+    flex: 0 0 09% !important;
+}
+
+.mat-column-AssignedDate {
+    flex: 0 0 11% !important;
+}
+
+.mat-column-DueDate {
+    flex: 0 0 10% !important;
+}
+
+.mat-column-Priority {
+    flex: 0 0 7% !important;
+}
+
+.mat-column-Status {
+    flex: 0 0 10% !important;
+}
+.mat-column-Action {
+    flex: 0 0 30% !important;
+}

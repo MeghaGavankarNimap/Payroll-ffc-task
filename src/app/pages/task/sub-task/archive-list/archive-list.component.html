@@ -1,1 +1,80 @@
-<p>archive-list works!</p>
+<!-- <p>archive-list works!</p> -->
+
+        <div class="mat-table__wrapper kt-mh-70" style="overflow: unset;">
+            <mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource">
+                <ng-container matColumnDef="Title">
+                    <mat-header-cell *matHeaderCellDef>Title</mat-header-cell>
+                    <mat-cell *matCellDef="let task" class="kt-block-inline highlight"  (click)="showTaskDetails(task.TaskId, false)"
+                       >
+                        {{task.Title}}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="CustomerName">
+                    <mat-header-cell *matHeaderCellDef>Customer Name</mat-header-cell>
+                    <mat-cell *matCellDef="let task" class="kt-block-inline highlight"
+                      >
+                        {{task?.LeadName ? task?.LeadName:'-' }}
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="AssignedBy">
+                    <mat-header-cell *matHeaderCellDef>Assigned By</mat-header-cell>
+                    <mat-cell *matCellDef="let task">
+                        {{task.AssignedByUserName}}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="AssignedDate">
+                    <mat-header-cell *matHeaderCellDef>Assigned Date</mat-header-cell>
+                    <mat-cell *matCellDef="let task">
+                        {{datePipe.transform(task.CreateDate, 'd MMM yyyy')}}
+                      
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="DueDate">
+                    <mat-header-cell *matHeaderCellDef>Due Date</mat-header-cell>
+                    <mat-cell *matCellDef="let task">
+                        {{datePipe.transform(task.TaskEndDate, 'd MMM yyyy')}}
+                      
+                       
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="Priority">
+                    <mat-header-cell *matHeaderCellDef>Priority</mat-header-cell>
+                    <mat-cell *matCellDef="let task">
+                        {{task.Priority}}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="Status">
+                    <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+                    <mat-cell *matCellDef="let task"
+                        [ngStyle]="{'color': (task.CompletionPercentage == 100) ? 'green' : (task.CompletionPercentage == 0) ? 'orange' :(task.CompletionPercentage > 0 && task.CompletionPercentage < 100) ? 'blue': ''}">
+                        <div *ngIf="task.CompletionPercentage == 0">Pending</div>
+                        <div *ngIf="task.CompletionPercentage > 0 && task.CompletionPercentage < 100">Partial Complete
+                            ({{task.CompletionPercentage}}%)</div>
+                        <div *ngIf="task.CompletionPercentage == 100">Completed</div>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="Action">
+                    <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+                    <mat-cell *matCellDef="let task">
+                        <button (click)="unarchiveTask(task.TaskId)" mat-stroked-button  color="primary"
+                          type="button">Unarchive
+                           
+                        </button>&nbsp;
+                        
+                    </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+            </mat-table>
+            <!-- <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
+            <div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....</div> -->
+        </div>
+        <div class="mat-table__bottom">
+          
+            <mat-paginator [length]="100"
+            [pageSize]="10"
+            [pageSizeOptions]="[ 10, 25, 100]"
+            aria-label="Select page"></mat-paginator>
+        </div>
+ 

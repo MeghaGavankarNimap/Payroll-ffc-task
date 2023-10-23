@@ -1,1 +1,118 @@
-<p>my-task works!</p>
+<!-- <p>my-task works!</p> -->
+
+        <div class="mat-table__wrapper kt-mh-70" style="overflow: unset;">
+            <!-- matSort (matSortChange)="sortData($event)" -->
+            <mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource">
+                <ng-container matColumnDef="Title">
+                    <mat-header-cell *matHeaderCellDef >Title</mat-header-cell>
+                    <mat-cell *matCellDef="let task" class="title"  (click)="ViewTaskDetails(task.TaskId, false)">
+                        {{task.Title}}
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="CustomerName">
+                    <mat-header-cell *matHeaderCellDef>Customer Name</mat-header-cell>
+                    <mat-cell *matCellDef="let task" class="kt-block-inline highlight"
+                    >
+                        {{task?.LeadName ? task?.LeadName:'-' }}
+                    </mat-cell>
+                </ng-container>
+                
+                <ng-container matColumnDef="AssignedBy">
+                    <mat-header-cell *matHeaderCellDef>Assigned By</mat-header-cell>
+                    <mat-cell *matCellDef="let task">
+                        {{task.AssignedByUserName}}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="AssignedDate">
+                    <mat-header-cell *matHeaderCellDef>Assigned Date 
+                           </mat-header-cell>
+                    <mat-cell *matCellDef="let task">
+                        {{datePipe.transform(task.CreateDate, 'd MMM yyyy')}}
+                     
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="DueDate">
+                    <!-- mat-sort-header -->
+                    <mat-header-cell *matHeaderCellDef>Due Date 
+                             </mat-header-cell>
+                    <mat-cell *matCellDef="let task">
+                        {{datePipe.transform(task.TaskEndDate, 'd MMM yyyy')}}
+                    
+                        <!-- {{task.TaskEndDate | customDate:'0':'dd MMM yyyy'}} &nbsp;&nbsp;&nbsp;&nbsp; <img
+                            *ngIf="checkDate(task.TaskEndDate,'overdue') && task.TaskStatus != 100"
+                            src="../../../../../../assets/media/icons/overdue.svg" width="15%" alt=""
+                            matTooltip="Overdue">
+                        <img *ngIf="checkDate(task.TaskEndDate,'duetoday') && task.TaskStatus != 100"
+                            src="../../../../../../assets/media/icons/duetoday.svg" width="15%" alt=""
+                            matTooltip="Due Today"> -->
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="Priority">
+                    <mat-header-cell *matHeaderCellDef>Priority</mat-header-cell>
+                    <mat-cell *matCellDef="let task">
+                        {{task.Priority}}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="Status">
+                    <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+                    <mat-cell *matCellDef="let task"
+                        [ngStyle]="{'color': (task.TaskStatus == 100) ? 'green' : (task.TaskStatus == -1) ? 'red' : (task.TaskStatus == 0) ? 'orange' :(task.TaskStatus > 0 && task.TaskStatus < 100) ? 'blue': ''}">
+                        <div *ngIf="task.TaskStatus == 0">Accepted</div>
+                        <div *ngIf="task.TaskStatus == -1">Not Accepted</div>
+                        <div *ngIf="task.TaskStatus > 0 && task.TaskStatus < 100">Partial Complete
+                            ({{task.TaskStatus}}%)</div>
+                        <div *ngIf="task.TaskStatus == 100">Completed</div>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="Action">
+                    <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+                    <mat-cell *matCellDef="let task">
+                        <button (click)="acceptTask(task.TaskId)" mat-icon-button color="primary" matTooltip="Accept"
+                        type="button"
+                        [ngStyle]="{'visibility' : (task.TaskStatus == -1 && !task.IsArchive) ? 'visible' : 'hidden'}">
+                        <img class="action-btn" src="assets/TaskAccept.svg">
+                    </button>
+                    <button (click)="completeTask(task.TaskId)" mat-icon-button color="primary"
+                            matTooltip="Complete" type="button"
+                            [ngStyle]="{'visibility' : (task.TaskStatus != 100 && task.TaskStatus != -1 && !task.IsArchive) ? 'visible' : 'hidden'}">
+                            <img class="action-btn" src="assets/TaskComplete.svg">
+                        </button>&nbsp;
+                        <button (click)="partialComplete(task.TaskId, task.CompletionPercentage)" mat-icon-button
+                            color="primary" matTooltip="Partial Complete" type="button"
+                            [ngStyle]="{'visibility' :(task.TaskStatus != -1 && (task.TaskStatus >= 0 && task.TaskStatus < 100) && task.TaskStatus != 100 && !task.IsArchive) ? 'visible' : 'hidden'}">
+                            <img class="action-btn" src="assets/TaskPartialComplete.svg">
+                        </button>&nbsp;
+                        <button (click)="archiveTask(task.TaskId)" mat-stroked-button  color="primary" class="mat-button"
+                            type="button">Archive
+                            
+                        </button>
+                        <button (click)="viewCoverage(task.TaskId)" mat-stroked-button  color="accent" class="mat-button"
+                           type="button">View 
+                           
+                        </button>
+                        <button (click)="deleteTask(task.TaskId)" mat-stroked-button color="warn" class="mat-button"
+                            type="button">Delete
+                          
+                        </button>
+
+                        
+                       
+                    </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+            </mat-table>
+            <!-- <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
+            <div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....</div> -->
+        </div>
+       
+            <div class="mat-table__bottom">
+                <!-- <mat-spinner [diameter]="20" *ngIf="dataSource.loading$ | async"></mat-spinner> -->
+                <mat-paginator [length]="100"
+               
+                [pageSizeOptions]="[10, 25, 100]"
+                aria-label="Select page"></mat-paginator>
+            </div>
+        
+    

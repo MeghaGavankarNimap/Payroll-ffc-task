@@ -14,9 +14,10 @@ import {MatFormFieldModule, MatLabel} from '@angular/material/form-field';
 import { MatOptionModule } from '@angular/material/core';
 import {MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogModule} from '@angular/material/dialog';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-
+import {MatTableModule} from '@angular/material/table';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 
 
@@ -40,7 +41,9 @@ import {MatTabsModule} from '@angular/material/tabs';
    MatDialogModule,
    MatNativeDateModule,
    MatDatepickerModule,
-   MatTabsModule
+   MatTabsModule,
+   MatTableModule,
+   MatPaginatorModule
   ],
   exports:[
     CommonModule,
@@ -55,7 +58,9 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatDialogModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatTabsModule
+    MatTabsModule,
+    MatTableModule,
+    MatPaginatorModule
 
   ]
 })

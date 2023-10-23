@@ -7,6 +7,9 @@ import { MaterialModule } from '../material/material.module';
 import { AuthGuard } from '../base/guards/auth.guard';
 import { AuthInterceptor } from '../shared/auth/auth.interceptor';
 import { CustomPipePipe } from '../base/pipes/custom-pipe.pipe';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+
 
 
 
@@ -17,7 +20,7 @@ import { CustomPipePipe } from '../base/pipes/custom-pipe.pipe';
 const routes: Routes = [
   {
 		path: 'dashboard', loadChildren: () => import('../pages/dashboard/dashboard.module').then(m => m.DashboardModule),
-    canActivate: [],
+    canActivate: [AuthGuard],
 	},
   {
 		path: 'task', loadChildren: () => import('../pages/task/task.module').then(m => m.TaskModule),
@@ -33,7 +36,9 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    MaterialModule
+    MaterialModule,
+    MatPaginatorModule,
+    MatTableModule
    
   ]
 })

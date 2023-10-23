@@ -1,0 +1,167 @@
+<!-- <p>view-task-details works!</p> -->
+<div class="close-icon">
+    <img src="assets/cancel.svg" alt="no-img" (click)="close()">
+ </div>
+     
+                <div class="form-group kt-form__group row">
+                    <div class="col-6 kt-margin-b-10  detailsColumn" style="height: 300px;">
+                        <div class=" col-12 kt-padding-b-10">
+                            <label>Title</label>
+                            <p>{{taskDetails?.Title ? taskDetails?.Title:'-' }}</p>
+                           
+                        </div>
+                        <div class="col-12 kt-padding-b-10">
+                            <label>Description</label>
+                            <p>{{taskDetails?.Description ? taskDetails?.Description:'-' }}</p>
+                        </div>
+                        <div class="col-12 kt-padding-b-10">
+                            <div class="row">
+                                <div class="col-8">
+                                    <label>Attached File</label>
+                                    <p>{{taskDetails?.MultimediaName?taskDetails?.MultimediaName:'-'}}
+                                        <!-- <span  (click)="showPreview(MultimediaLink)">View</span> -->
+                                        <!-- <span (click)="showPreview(MultimediaLink)"
+                                            *ngIf="taskDetails.MultimediaName != '-' && taskDetails.MultimediaType == 'I'"
+                                            class="float-right viewBtn" download>View</span>
+                                        <span
+                                            *ngIf="taskDetails.MultimediaName != '-' && taskDetails.MultimediaType == 'D'"
+                                            class="float-right viewBtn"><a href="{{MultimediaLink}}" target="_blank"
+                                                download>View</a></span> -->
+                                    </p>
+                                    <span (click)="showPreview()" class="view-img">View</span>
+                                </div>
+                              
+                            </div>
+                        </div>
+                        
+                        <div class="col-12 kt-padding-b-10">
+                            <label>Priority</label>
+                            <p>{{taskDetails?.Priority ? taskDetails?.Priority:'-' }}</p>
+                        </div>
+                        <div class="col-12 kt-padding-b-10">
+                            <div class="row">
+                                <div class="col-8">
+                                    <label>Assigned Date</label>
+                                    
+                                    <p *ngIf="taskDetails?.AssignedDate"> {{datePipe.transform(taskDetails.AssignedDate, 'd MMM yyyy')}}</p>
+                                    <p *ngIf="!taskDetails?.AssignedDate">No assigned date</p>
+                                   
+                                    
+                                </div>
+                                <div class="col-4">
+                                    <label>Due Date</label>
+                                    <p *ngIf="taskDetails?.TaskEndDate"> {{datePipe.transform(taskDetails.TaskEndDate, 'd MMM yyyy')}}</p>
+                                    <p *ngIf="!taskDetails?.TaskEndDate">No assigned date</p>
+                                 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 kt-padding-b-10">
+                            <div class="row">
+                                <div class="col-8">
+                                    <label>Assigned To</label>
+                                    <p  class="kt-pointer" *ngIf="taskDetails?.AssignedToUserCount">
+                                        {{taskDetails.AssignedToUserCount}} <span
+                                            *ngIf="taskDetails.AssignedToUserCount <= 1">&nbsp;User</span><span
+                                            *ngIf="taskDetails.AssignedToUserCount > 1">&nbsp;Users</span></p>
+                                </div>
+                                <!-- <div class="col-4" *ngIf="taskDetails.TaskOwnerCount >= 1;else noCC">
+                                    <label>CC Members</label>
+                                    <p  class="kt-pointer" *ngIf="taskDetails?.TaskOwnerCount">
+                                        {{taskDetails.TaskOwnerCount}} <span
+                                            *ngIf="taskDetails.TaskOwnerCount <= 1">&nbsp;User</span><span
+                                            *ngIf="taskDetails.TaskOwnerCount > 1">&nbsp;Users</span>
+                                    </p>
+                                </div> -->
+                            </div>
+                            <ng-template #noCC>
+                                <div class="col-4">
+                                    <label>Customer Name</label>
+                                    <p class="highlight kt-pointer"
+                                       >
+                                        {{taskDetails?.LeadName ? taskDetails?.LeadName:'-' }}</p>
+                                </div>
+                            </ng-template>
+                        </div>
+                        <!-- <div class="col-12 kt-padding-b-10">
+                            <div class="row">
+                                <div class="col-8" *ngIf="taskDetails.TaskOwnerCount >= 1">
+                                    <label>Customer Name</label>
+                                    <p class="highlight kt-pointer"
+                                       >
+                                        {{taskDetails?.LeadName ? taskDetails?.LeadName:'-' }}</p>
+                                </div>
+                                <div class="col-4">
+                                    <label>Mobile No</label>
+                                    <p>{{taskDetails?.MobileNo ? taskDetails?.MobileNo:'-' }}</p>
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- <div class="col-12 kt-padding-b-10 kt-padding-t-10"
+                            *ngIf="taskDetails.AssignedBy == currentUser.userId">
+                            <button (click)="editTask(taskDetails.TaskId)" mat-raised-button color="primary"
+                                *ngIf="permisions.includes('TaskEdit') && taskDetails.TaskStatus != 100">Edit
+                                Task</button>
+                            <button (click)="acceptTask(taskDetails.TaskId)" class="kt-pointer kt-margin-l-10"
+                                mat-button matTooltip="Accept">
+                                <img src="../../../../../assets/media/task/TaskAccept.svg" height="20px"
+                                    *ngIf="taskDetails.TaskStatus == -1 && taskDetails.AssignedToUserIds.includes(data.userId) && data.isCC">
+                            </button>
+                            <button (click)="completeTask(taskDetails.TaskId)" class="kt-pointer" mat-button
+                                matTooltip="Complete">
+                                <img src="../../../../../assets/media/task/TaskComplete.svg" height="20px"
+                                    *ngIf="taskDetails.TaskStatus != 100 && taskDetails.AssignedToUserIds.includes(data.userId) && taskDetails.TaskStatus != -1 && data.isCC">
+                            </button>
+                            <button (click)="partialCompleteTask(taskDetails.TaskId, CompletionPercentage)"
+                                class="kt-pointer" mat-button matTooltip="Partial Complete">
+                                <img src="../../../../../assets/media/task/TaskPartialComplete.svg" height="20px"
+                                    *ngIf="taskDetails.TaskStatus != -1 && (taskDetails.TaskStatus >= 0 && taskDetails.TaskStatus < 100) && taskDetails.TaskStatus != 100 && taskDetails.AssignedToUserIds.includes(data.userId) && data.isCC">
+                            </button>
+                        </div> -->
+                    </div>
+
+                    <!-- <div class="col-6 kt-margin-b-10  " *ngIf="commentDetails" style="height: 360px;overflow: auto;">
+
+                        <p>Comments</p>
+                        <div class="kt-padding-t-5" *ngFor="let comments of commentDetails">
+                            <p>{{comments.UserName}}</p>
+                            <span class="comment kt-padding-b-5">{{comments.Comment}}</span><br>
+                            <p *ngIf="comments.MultimediaType != null && comments.MultimediaType == 'D'">
+                                <i class="view"
+                                    *ngIf="comments.MultimediaName != '-' && comments.MultimediaType == 'D'">
+                                    <a [href]="comments.MultimediaName" target="_blank" download>View/Download
+                                        Document</a></i>
+                            </p>
+                            <img *ngIf="comments.MultimediaType != null && comments.MultimediaType == 'I'"
+                                src="{{comments.MultimediaName}}" width="200px" height="250px"
+                                (click)="preview(comments.MultimediaName)"><br>
+                            <label>{{comments.CreatedDate | customDate:'0':'d MMM yyyy'}} at
+                                {{comments.CreatedDate | customDate:'0':'hh:mm a'}}</label>
+                            <hr>
+                        </div>
+                        <div class="imagePreview" *ngIf="isImage">
+                            <div class="remove" (click)="removeImagePreview()">x</div>
+                            <img src="{{imagePreview}}" height="250px" width="250px" class="kt-margin-b-10"
+                                (click)="preview(imagePreview)">
+                        </div>
+                        <div *ngIf="isDoc">
+                            <p>{{imageName | truncate:[30,'...']}} <span class="float-right viewBtn"
+                                    style="font-size: large;" (click)="removeImagePreview()">&times;</span> </p>
+                        </div>
+                        <mat-form-field class="mat-form-field-fluid">
+                            <textarea matInput #comment placeholder="Enter your comment..." matTextareaAutosize
+                                matAutosizeMinRows=1 matAutosizeMaxRows=5 style="width: 90%"></textarea>
+                            <label class="float-right d-inline-block">
+                                <mat-icon matSuffix class="attachFile">
+                                    attachment</mat-icon>
+                                <input type="file" class="d-none" (input)="imageData($event)" accept="image/jpeg" />
+                            </label>
+                        </mat-form-field>
+
+                        <button mat-raised-button matTooltip="Add comment" color="primary" class="mat-button-mt-4"
+                            (click)="addComment(comment)">
+                            Add Comment
+                        </button>
+
+                    </div> -->
+                </div>

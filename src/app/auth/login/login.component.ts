@@ -84,7 +84,7 @@ export class LoginComponent implements OnInit {
     else {
       this.authService.signIn(this.data.username, this.data.password).pipe(
         map((res) => {
-          console.log(res.userDetail.data.UserId)
+         
           
           const uDetail=JSON.stringify(res.userDetail.data)
           localStorage.setItem('userdetails', uDetail);
@@ -95,7 +95,7 @@ export class LoginComponent implements OnInit {
           }
 
           this.toastr.success('Logged in successfully');
-          this.router.navigate(['/pages/dashboard'])
+          this.router.navigate(['/pages/task'])
         })
       ).subscribe()
     }
