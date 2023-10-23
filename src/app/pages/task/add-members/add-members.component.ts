@@ -77,6 +77,7 @@ export class AddMembersComponent implements OnInit {
       map((members:any) => {
         console.log(members)
         this.memberList = members.data.Members;
+        this.allData = members.data.Members;
         if (this.memberList == undefined) {
           this.noRecords = true
         }
