@@ -14,6 +14,7 @@ import { CustomPipePipe } from 'src/app/base/pipes/custom-pipe.pipe';
 import { ToastrService } from 'ngx-toastr';
 import { TabConditionComponent } from '../tab-condition/tab-condition.component';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
+import { invalid } from '@angular/compiler/src/render3/view/util';
 
 
 
@@ -48,6 +49,9 @@ export class AddTaskComponent implements OnInit {
   result:any
   index = 0;
   indexOld = 0;
+  displayFileName: string = '';
+  imageName: string = '';
+  imageExt: string = '';
 
   taskOwnerCount:any
   pageData = {
@@ -63,8 +67,8 @@ export class AddTaskComponent implements OnInit {
  currentTabIndex=0
  @ViewChild('tabGroup') tabGroup!: MatTabGroup ; 
  @ViewChildren('tab') tabs: QueryList<ElementRef> | undefined;
+ @ViewChild('imageFileInput', { static: false }) imageFileInput!: ElementRef;
 
- 
   constructor(
    
     public dialogRef: MatDialogRef<AddTaskComponent>,
@@ -192,13 +196,24 @@ TaskStatus: ['']
 
     }
 
-    titleTouched = false;
+    get UserDisplayIds(){
+      return this.addForm.get('UserDisplayIds')
+    }
+
+
+
+    get TaskDisplayOwners(){
+      return this.addForm.get('TaskDisplayOwners')
+    }
+
+    get TaskEndDateDisplay(){
+      return this.addForm.get('TaskEndDateDisplay')
+    }
+   
 
 // ...
 
-onTitleInput() {
-  this.titleTouched = true;
-}
+
 
     // showNumberError = false;
 
@@ -216,55 +231,91 @@ onTitleInput() {
   }
 
 
-  onOpenFile():void{
-    const dialogRef=this.dialog.open(UploadFileComponent,{
-      width: '20rem',
-      height:'20rem'
-    });
-    dialogRef.afterClosed().subscribe((res )=> {
-      console.log(res)
-      this.attachFileValue = res.name;
-      // if (this.attachFileValue) {
+  // onOpenFile():void{
+  //   const dialogRef=this.dialog.open(UploadFileComponent,{
+  //     width: '20rem',
+  //     height:'20rem'
+  //   });
+  //   dialogRef.afterClosed().subscribe((res )=> {
+  //     console.log(res)
+  //     this.attachFileValue = res.name;
+  //     // if (this.attachFileValue) {
         
-      // }
-    })
+  //     // }
+  //   })
 
+  // }
+  openFile() {
+    this.imageFileInput.nativeElement.click();
+  }
+
+  handleFileSelect(inputValue: any): void {
+    if (inputValue.files[0] && inputValue.files[0].size < 5000000) {
+      var file = inputValue.files[0];
+      this.displayFileName = file.name;
+      this.imageName = this.displayFileName.replace(/\\/g, "/");
+      const imageNameMatch = /[^/]*$/.exec(this.imageName);
+this.imageName = imageNameMatch ? imageNameMatch[0] : '';
+
+const imageExtMatch = /[^.]*$/.exec(this.imageName);
+this.imageExt = imageExtMatch ? imageExtMatch[0] : '';
+      // this.imageName = (/[^/]*$/.exec(this.imageName)[0]);
+      // this.imageExt = (/[^.]*$/.exec(this.imageName)[0]);
+      this.imageName = this.imageName.substring(0, this.imageName.lastIndexOf('.'));
+      var reader = new FileReader();
+      reader.onload = (e: any) => {
+        var binaryData = e.target.result;
+        var base64String = btoa(binaryData);
+        var imagePath = base64String;
+        this.addForm.patchValue({
+          Image: imagePath
+        });
+      }
+      reader.readAsBinaryString(file);
+    } else if (inputValue.files[0] && inputValue.files[0].size > 2000000) {
+      // this.toastrService.error('File size is greater than 5MB');
+      // this.chRef.detectChanges();
+    }
+  }
+
+  removeFile() {
+    this.imageFileInput.nativeElement.value = '';
+    this.displayFileName = '';
+    this.addForm.patchValue({
+      Image: '',
+      MultimediaData: '',
+      MultimediaExtension: '',
+      MultimediaFileName: '',
+      MultimediaType: ''
+    });
   }
 
   
-  onFileSelect(event:any){
-    console.log("hello"+event.target.value)
-    let fileType = event.target.files[0].type;
-    // let size = event.target.files[0].size;
-    if (fileType.match(/image\/*/)) {
-      let reader = new FileReader();
-      const file = event.target.files[0];
-      reader.readAsDataURL(file);
-      reader.onload = (event: any) => {
-        const img = new Image();
-        img.onload = () => {
-          // Once the image has loaded, you can get its width and height
-          const width = img.width;
-          const height = img.height;
-          this.imageValid = false;
-          if (width > 310 && height > 325) {
-            console.log('Image is too large.');
-            this.imageValid = true;
-            return;
-          } else {
-            console.log('Image is valid.');
-            this.url = event.target.result;
-            console.log(this.url)
+  // onFileSelect(event:any){
+  //   console.log("hello" + event.target.value);
+  //   const fileType = event.target.files[0].type;
+  //   const fileSize = event.target.files[0].size; // Get the file size in bytes
+  //   const maxSize = 2 * 1024 * 1024; 
+  //   if (fileType.match(/^.*\/*$/)) {
+  //     if (fileSize <= maxSize) {
+  //       this.imageValid = false;
+  //       console.log('Image is valid.');
+        
+  //       const reader = new FileReader();
+  //       reader.onload = (e: any) => {
+  //         this.url = e.target.result; // This is the Base64-encoded data URL
+  //       };
+  //       reader.readAsDataURL(event.target.files[0]);
+  //     } else {
+  //       console.log('Image file size is too large.');
+  //       this.imageValid = true;
+  //     }
+  //   } else {
+  //     window.alert('Please select a correct image format');
+  //   }
            
-          }
-        };
-        img.src = URL.createObjectURL(file);
-      };
-    } else {
-      window.alert('Please select correct image format');
-    }
-
-  }
+        
+  // }
 
 
   
@@ -474,58 +525,69 @@ onTitleInput() {
       
       // }
       submit() {
-      
+        // if (this.addForm.invalid) {
+        //  this.addForm.markAllAsTouched();
+        //  console.log("it invalid")
+
+        //   return;
+        // }
+        // else{
+
+        const controls = this.addForm.controls;
+      if (this.selectedIndex == 1) {
+        controls.UserDisplayIds.disable();
+      }
+      // if (this.addForm.invalid) {
+      //   Object.keys(controls).forEach(controlName => {
+      //     controls[controlName].markAsTouched();
+      //   });
+      //   return;
+      // }
+      if (this.selectedIndex == 0) {
+        console.log("zero")
+        controls.UserDisplayIds.setValidators(Validators.required);
+        controls.UserDisplayIds.updateValueAndValidity();
+        controls.UserIds.setValue(this.userIds);
+      }
+      if (this.selectedIndex == 1) {
+        console.log("one")
+        controls.UserDisplayIds.disable();
+        this.userIds = [];
+        this.userIds.push(this.userDetails.UserId);
+        controls.UserIds.setValue(this.userIds);
+      }
+
+
+      // 
         const selectTab = this.selectedIndex;
-          const controls = this.addForm.controls;
+          // const controls = this.addForm.controls;
           controls.UserIds.setValue(this.userIds);
           controls.AssignedBy.setValue(this.userDetails.UserId);
       
-       
+      //  controls.Image.setValue(this.url)
+      let imageData = controls.Image.value;
+      controls.MultimediaData.setValue(imageData);
+      controls.MultimediaExtension.setValue(this.imageExt);
+      controls.MultimediaFileName.setValue(this.imageName);
+
+      if (this.imageExt == 'jpeg' || this.imageExt == 'JPEG' || this.imageExt == 'jpg' ||
+        this.imageExt == 'JPG' || this.imageExt == 'png' || this.imageExt == 'PNG' || this.imageExt == 'svg'
+        || this.imageExt == 'SVG') {
+        controls.MultimediaType.setValue('I');
+      }
+      else {
+        if (this.imageExt) {
+          controls.MultimediaType.setValue('D');
+        } else {
+          controls.MultimediaType.setValue('');
+        }
+      }
+
+      
           
-          // if (this.selectedIndex == 1) {
-          //   controls.UserDisplayIds.disable();
-          // }
-          // if (this.addTaskForm.invalid) {
-          //   Object.keys(controls).forEach(controlName => {
-          //     controls[controlName].markAsTouched();
-          //   });
-          //   return;
-          // }
-          // if (this.selectedIndex == 0) {
-          //   controls.UserDisplayIds.setValidators(Validators.required);
-          //   controls.UserDisplayIds.updateValueAndValidity();
-          //   controls.UserIds.setValue(this.userIds);
-          // }
-          // if (this.selectedIndex == 1) {
-          //   controls.UserDisplayIds.disable();
-          //   this.userIds = [];
-          //   this.userIds.push(this.data.UserId);
-          //   controls.UserIds.setValue(this.userIds);
-          // }
-          // want
-          // controls.TaskOwners.setValue(this.taskOwners);
-          // let imageData = controls.Image.value;
-          // controls.MultimediaData.setValue(imageData);
-          // want
-          // controls.MultimediaExtension.setValue(this.imageExt);
-          // controls.MultimediaFileName.setValue(this.imageName);
+          
     
-          // if (this.imageExt == 'jpeg' || this.imageExt == 'JPEG' || this.imageExt == 'jpg' ||
-          //   this.imageExt == 'JPG' || this.imageExt == 'png' || this.imageExt == 'PNG' || this.imageExt == 'svg'
-          //   || this.imageExt == 'SVG') {
-          //   controls.MultimediaType.setValue('I');
-          // }
-          // else {
-          //   if (this.imageExt) {
-          //     controls.MultimediaType.setValue('D');
-          //   } else {
-          //     controls.MultimediaType.setValue('');
-          //   }
-          // }
-    
-          // let customDate = this.customDatePipe.transform(controls.TaskEndDateDisplay.value, 0, 'd MMM yyyy hh:mm a')
-          // controls.TaskEndDate.setValue(customDate);
-          // this.viewLoading = true;
+        
           let customDate  = this.datePipe.transform(controls.TaskEndDateDisplay.value, 'd MMM yyyy hh:mm a');
           console.log(customDate)
           controls.TaskEndDate.setValue(customDate);
@@ -539,7 +601,7 @@ onTitleInput() {
               
     
             })).subscribe();
-        
+          // }
 
       }
 

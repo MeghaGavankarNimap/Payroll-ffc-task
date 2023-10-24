@@ -98,10 +98,7 @@ export class CCComponent implements OnInit {
 
 
   
-  this.obj.search$.subscribe((res: any) => {
-    this.searchText = res;
-    this.loadCCPage()
-  })
+  
 
 	
   }
@@ -305,36 +302,8 @@ export class CCComponent implements OnInit {
   // }
 
 
- /// CUSTOMER TIME LINE START//
 
-  /**
-   * get customer status
-   */
-  //  getCustomerStatus() {
-  //   this.customersService.getCustomerStatus()
-  //     .pipe(
-  //       map(res => {
-  //         if (res != '') {
-  //           this.customerStatusList = res;
-  //           this.chRef.detectChanges();
-  //         }
-  //       })
-  //     )
-  //     .subscribe();
-  // }
-
-  /**
-    * Redirect to timeline / edit page
-    *
-    * @param id
-    */
-  // redirectCustomerDetail(id, name) {
-  //   this.lrmId = id;
-  //   this.userName = name;
-  //   window.scrollTo(0, 0);
-  // }
-
-  //END////
+ 
 }
 
 

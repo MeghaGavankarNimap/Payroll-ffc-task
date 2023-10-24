@@ -124,9 +124,9 @@ export class TaskService {
     const params = {
       From: from,
       To: to,
-      Title: '',
+      Title: title,
       UserId: id,
-      IsArchive: false,
+      IsArchive: true,
       UserIds: []
     }
     return this.http.post('api/Task/UserTasksAssignedByMe', params)

@@ -22,12 +22,12 @@
                             <div class="form-group">
                                 <mat-form-field class="field">
                                     <mat-label>Title*</mat-label>
-                                    <input matInput formControlName="Title" (blur)="onTitleInput()">
+                                    <input matInput formControlName="Title">
                                     <mat-error style="color:rgb(236, 66, 95);">
                                         
-                                        <ng-container *ngIf="Title?.touched && Title?.hasError('required')">This field is
+                                        <ng-container *ngIf="Title?.touched && Title?.hasError('required')"> Title is
                                             required</ng-container>
-                                        <ng-container *ngIf="Title?.touched && Title?.hasError('pattern') && titleTouched">Title should contain only
+                                        <ng-container *ngIf="Title?.touched && Title?.hasError('pattern')">Title should contain only
                                             alphabetical characters</ng-container>
 
                                     </mat-error>
@@ -50,15 +50,24 @@
                         </div>
                         <div class="col-lg-12">
                             <div class="form-group">
+                                <mat-form-field class="mat-form-field-fluid">
+                                    <input class="kt-pointer" matInput placeholder="Attach File*"
+                                        [value]="displayFileName" (click)="openFile()" readonly />
+                                    <input formControlName="Image" hidden />
+                                    <input #imageFileInput id="imageFileInput" type="file"
+                                        (change)="handleFileSelect($event.target)" hidden>
+                                </mat-form-field>
+                                <div class="kt-remove-input-value" (click)="removeFile()" *ngIf="displayFileName">Remove
+                                </div>
 
-
+<!-- 
                                 <label class="btn btn-primary" for="img">Attach File </label>
-                                <input id="img" (change)="onFileSelect($event)" accept="/*" formControlName="Image"
+                                <input id="img" (change)="onFileSelect($event)" accept="*/*" formControlName="Image"
                                     type="file">
                                 <mat-error style="color:rgb(236, 66, 95);"
                                     *ngIf="Image && Image.invalid && Image.touched">File is required</mat-error>
                                 <mat-error style="color:rgb(236, 66, 95);" *ngIf="imageValid">File size should be less
-                                    than 2MB</mat-error>
+                                    than 2MB</mat-error> -->
 
                                 <!-- <mat-form-field class="field"> -->
                                 <!-- <mat-label>Attach File</mat-label>
@@ -93,13 +102,13 @@
                             <div class="form-group">
                                 <mat-form-field class="field">
 
-                                    <mat-label>Select Priority</mat-label>
-                                    <mat-select formControlName="Priority">
-                                        <mat-option value="one">First option</mat-option>
-                                        <mat-option value="two">Second option</mat-option>
+                                    <mat-label>Select Priority*</mat-label>
+                                    <mat-select formControlName="Priority*">
+                                        <mat-option value="High">High Priority</mat-option>
+                                        <mat-option value="Low">Low Priority</mat-option>
                                     </mat-select>
 
-                                    <!-- <mat-error style="color:rgb(236, 66, 95);" *ngIf="priority && priority.invalid && priority.touched">priority  is required</mat-error> -->
+                                     <mat-error style="color:rgb(236, 66, 95);" *ngIf="Priority && Priority.invalid && Priority.touched">priority  is required</mat-error> 
 
                                 </mat-form-field>
 
@@ -117,7 +126,7 @@
                                     <ul>
                                         <!-- <li *ngFor="let member of allMembers">{{ member.Name }}</li> -->
                                     </ul>
-                                    <!-- <mat-error style="color:rgb(236, 66, 95);" *ngIf="users && users.invalid && users.touched">users  is required</mat-error> -->
+                                     <mat-error style="color:rgb(236, 66, 95);" *ngIf="UserDisplayIds && UserDisplayIds.invalid && UserDisplayIds.touched">user is required</mat-error>
                                     <input matInput formControlName="UserIds" hidden />
                                 </mat-form-field>
 
@@ -126,12 +135,12 @@
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <mat-form-field class="field">
-                                    <mat-label>Add CC Members</mat-label>
+                                    <mat-label>Add CC Members*</mat-label>
                                     <input matInput formControlName="TaskDisplayOwners"
                                         (click)="openMembers('TaskOwners')">
 
                                     <mat-error style="color:rgb(236, 66, 95);"
-                                        *ngIf="ccMembers && ccMembers.invalid && ccMembers.touched">ccMembers is
+                                        *ngIf="TaskDisplayOwners && TaskDisplayOwners.invalid && TaskDisplayOwners.touched">CC Member is
                                         required</mat-error>
                                     <input matInput formControlName="TaskOwners" hidden />
                                 </mat-form-field>
@@ -161,7 +170,7 @@
                                     <input matInput formControlName="Title">
                                     <mat-error style="color:rgb(236, 66, 95);"
                                         *ngIf="Title && Title.invalid && Title.touched">
-                                        <ng-container *ngIf="Title.hasError('required')">This field is
+                                        <ng-container *ngIf="Title.hasError('required')">Title  is
                                             required</ng-container>
                                         <ng-container *ngIf="Title.hasError('pattern')">Title should contain only
                                             alphabetical characters</ng-container>
@@ -176,7 +185,7 @@
                             <div class="form-group">
                                 <mat-form-field>
                                     <mat-label>Description*</mat-label>
-                                    <textarea matInput formControlName="Description"></textarea>
+                                    <textarea matInput formControlName="Description*"></textarea>
                                     <mat-error style="color:rgb(236, 66, 95);"
                                         *ngIf="Description && Description.invalid && Description.touched">description is
                                         required</mat-error>
@@ -186,15 +195,23 @@
                         </div>
                         <div class="col-lg-12">
                             <div class="form-group">
+                                <mat-form-field class="mat-form-field-fluid">
+                                    <input  matInput placeholder="Attach File*"
+                                        [value]="displayFileName" (click)="openFile()" readonly />
+                                    <input formControlName="Image" hidden />
+                                    <input #imageFileInput id="imageFileInput" type="file"
+                                        (change)="handleFileSelect($event.target)" hidden>
+                                </mat-form-field>
+                                <div class="kt-remove-input-value" (click)="removeFile()" *ngIf="displayFileName">Remove
+                                </div>
 
-
-                                <label class="btn btn-primary" for="img">Attach File </label>
-                                <input id="img" (change)="onFileSelect($event)" accept="/*" formControlName="Image"
+                                <!-- <label class="btn btn-primary" for="img">Attach File </label>
+                                <input id="img" (change)="onFileSelect($event)" accept="*/*" formControlName="Image"
                                     type="file">
                                 <mat-error style="color:rgb(236, 66, 95);"
                                     *ngIf="Image && Image.invalid && Image.touched">image is required</mat-error>
                                 <mat-error style="color:rgb(236, 66, 95);" *ngIf="imageValid">File size should be less
-                                    than 2MB</mat-error>
+                                    than 2MB</mat-error> -->
 
                                 <!-- <mat-form-field class="field"> -->
                                 <!-- <mat-label>Attach File</mat-label>
@@ -210,11 +227,11 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <mat-form-field class="field">
-                                    <input matInput [matDatepicker]="picker" placeholder="Select Due Date*"
-                                        [min]="current" formControlName="TaskEndDateDisplay" (click)="picker.open()"
+                                    <input matInput [matDatepicker]="picker1" placeholder="Select Due Date*"
+                                        [min]="current" formControlName="TaskEndDateDisplay" (click)="picker1.open()"
                                         readonly />
-                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                    <mat-datepicker #picker></mat-datepicker>
+                                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker1></mat-datepicker>
                                     <mat-error align="start">Please enter
                                         <strong>Due Date</strong></mat-error>
                                     <input matInput formControlName="TaskEndDate" hidden />
@@ -229,13 +246,13 @@
                             <div class="form-group">
                                 <mat-form-field class="field">
 
-                                    <mat-label>Select Priority</mat-label>
+                                    <mat-label>Select Priority*</mat-label>
                                     <mat-select formControlName="Priority">
-                                        <mat-option value="one">First option</mat-option>
-                                        <mat-option value="two">Second option</mat-option>
+                                        <mat-option value="High">High Priority</mat-option>
+                                        <mat-option value="Low">Low Priority</mat-option>
                                     </mat-select>
 
-                                    <!-- <mat-error style="color:rgb(236, 66, 95);" *ngIf="priority && priority.invalid && priority.touched">priority  is required</mat-error> -->
+                                 <mat-error style="color:rgb(236, 66, 95);" *ngIf="Priority && Priority.invalid && Priority.touched">priority  is required</mat-error>
 
                                 </mat-form-field>
 
@@ -244,30 +261,16 @@
                         <div class="col-lg-6">
                             <!-- blank -->
                         </div>
+                        
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <mat-form-field class="field">
-                                    <mat-label>Add Users*</mat-label>
-                                    <input matInput formControlName="UserDisplayIds" (click)="openMembers('UserIds')">
-
-                                    <ul>
-                                        <!-- <li *ngFor="let member of allMembers">{{ member.Name }}</li> -->
-                                    </ul>
-                                    <!-- <mat-error style="color:rgb(236, 66, 95);" *ngIf="users && users.invalid && users.touched">users  is required</mat-error> -->
-                                    <input matInput formControlName="UserIds" hidden />
-                                </mat-form-field>
-
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <mat-form-field class="field">
-                                    <mat-label>Add CC Members</mat-label>
+                                    <mat-label>Add CC Members*</mat-label>
                                     <input matInput formControlName="TaskDisplayOwners"
                                         (click)="openMembers('TaskOwners')">
 
                                     <mat-error style="color:rgb(236, 66, 95);"
-                                        *ngIf="ccMembers && ccMembers.invalid && ccMembers.touched">ccMembers is
+                                        *ngIf="TaskDisplayOwners && TaskDisplayOwners.invalid && TaskDisplayOwners.touched">CC Member is
                                         required</mat-error>
                                     <input matInput formControlName="TaskOwners" hidden />
                                 </mat-form-field>
@@ -286,6 +289,6 @@
 <div>
     <mat-dialog-actions align="end">
         <button mat-button mat-dialog-close>Cancel</button>
-        <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="submit()" [disabled]="addForm.invalid">Add</button>
+        <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="submit()" >Add</button>
     </mat-dialog-actions>
 </div>

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 
-
+import {MatTooltipModule} from '@angular/material/tooltip';
 import {Component, Inject} from '@angular/core';
 
 import {NgIf} from '@angular/common';
@@ -43,7 +43,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
    MatDatepickerModule,
    MatTabsModule,
    MatTableModule,
-   MatPaginatorModule
+   MatPaginatorModule,
+   MatTooltipModule
   ],
   exports:[
     CommonModule,
@@ -60,7 +61,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatNativeDateModule,
     MatTabsModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatTooltipModule
 
   ]
 })

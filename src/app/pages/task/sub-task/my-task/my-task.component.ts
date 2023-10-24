@@ -17,6 +17,7 @@ import { ViewTaskCoverageComponent } from '../view-task-coverage/view-task-cover
 import { PartialTaskCompleteDialogComponent } from '../partial-task-complete-dialog/partial-task-complete-dialog.component';
 import { CompleteTaskComponent } from '../complete-task/complete-task.component';
 import { DatePipe } from '@angular/common';
+import { TaskComponent } from '../../task.component';
 
 @Component({
   selector: 'app-my-task',
@@ -92,7 +93,8 @@ export class MyTaskComponent implements OnInit {
     private toastr: ToastrService,
     private toastrService: ToastrService,
   
-    private chRef: ChangeDetectorRef
+    private chRef: ChangeDetectorRef,
+    private obj:TaskComponent
 
 
  
@@ -117,6 +119,14 @@ export class MyTaskComponent implements OnInit {
 		}
 	)
 
+
+
+
+  
+  this.obj.search$.subscribe((res: any) => {
+    this.searchText = res;
+    this.loadTaskPage()
+  })
    
   }
 

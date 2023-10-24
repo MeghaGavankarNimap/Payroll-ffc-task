@@ -21,7 +21,7 @@ export class TaskDataSource extends BaseDataSource {
 	}
     
 
-	loadMyTask(from:number, to:number,title:''){
+	loadMyTask(from:number, to:number,title:string){
 		this.loadingSubject.next(true);
 
 		this.taskService.findMyTask(from, to,title)

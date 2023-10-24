@@ -10,6 +10,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { AuthInterceptor } from './shared/auth/auth.interceptor';
 import { CustomPipePipe } from './base/pipes/custom-pipe.pipe';
+import { NgHttpLoaderModule } from 'ng-http-loader';
 
 
 
@@ -27,6 +28,7 @@ import { CustomPipePipe } from './base/pipes/custom-pipe.pipe';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    NgHttpLoaderModule.forRoot(), 
     ToastrModule.forRoot({
       timeOut: 10000,
       preventDuplicates: true,
