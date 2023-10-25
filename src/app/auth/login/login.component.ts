@@ -7,7 +7,6 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { NumbersOnlyDirective } from 'src/app/base/directives/numbers-only.directive';
 import { AuthService } from 'src/app/shared/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
-//  import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -16,8 +15,8 @@ import { ToastrService } from 'ngx-toastr';
 
 
 
-// import { UsersService } from 'src/app/users.service';
-// import { NumbersOnlyDirective } from 'src/app/numbers-only.directive';
+
+
 
 @Component({
   selector: 'app-login',
@@ -68,7 +67,7 @@ export class LoginComponent implements OnInit {
 
   submit() {
 
-    // console.log(this.loginForm.get('username')?.value)
+    
 
 
     this.data = {
@@ -76,7 +75,7 @@ export class LoginComponent implements OnInit {
       password: this.loginForm.get('password')?.value,
 
     }
-    //  console.log(data);
+   
 
     if (this.loginForm.invalid) {
 

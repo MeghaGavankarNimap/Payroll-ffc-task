@@ -7,6 +7,8 @@ import { ToastrService } from 'ngx-toastr';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Subject, fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, tap } from 'rxjs/operators';
+import { TaskService } from 'src/app/shared/task/service/task.service';
+
 
 @Component({
   selector: 'app-task',
@@ -23,12 +25,12 @@ export class TaskComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService,
       private chRef: ChangeDetectorRef,
+      private taskservice:TaskService
     ) { }
-// @ViewChild('searchInput',{static:true}) searchInput: any;
 
 @ViewChild('input') input!: ElementRef;
 
-
+tabIndex:any
 
 search$ = new Subject();
 
@@ -59,18 +61,13 @@ search$ = new Subject();
 
     });
 
-    // dialogRef.afterClosed().subscribe(result => {
-    //   console.log('The dialog was closed');
-    //   this.animal = result;
-    // });
+   
   }
 
-
-  // onTabChanged(tabChangeEvent: MatTabChangeEvent): void {
-  //   this.searchInput.nativeElement.value = '';
-   
-  //   this.chRef.detectChanges();
-  // }
+  onTabChanged(tabChangeEvent: MatTabChangeEvent): void {
+    this.input.nativeElement.value = ''
+    
+  }
 
   logout(){
     this.authService.isLoggedOut();

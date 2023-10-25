@@ -117,6 +117,9 @@ export class AssignedByMeComponent implements OnInit {
     )
 
 
+  //  this.taskService.searchFieldClear.subscribe();
+
+
 
     this.obj.search$.subscribe((res: any) => {
       this.searchText = res;

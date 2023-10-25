@@ -9,11 +9,11 @@
 <div id="search-add">
   
     <button mat-raised-button (click)="openDialog()" class="mx-2">Add Task</button>
-    <mat-form-field class="mat-form-field-fluid kt-search-width">
+    <mat-form-field class="mat-form-field-fluid">
         <input matInput  #input placeholder="Search">
     </mat-form-field>
 </div>
-<mat-tab-group>
+<mat-tab-group (selectedTabChange)="onTabChanged($event)">
     <mat-tab >
         <ng-template mat-tab-label>
             My Task

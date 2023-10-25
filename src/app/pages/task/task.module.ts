@@ -8,7 +8,7 @@ import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { AddMembersComponent } from './add-members/add-members.component';
 import { TaskService } from 'src/app/shared/task/service/task.service';
-import { UploadFileComponent } from './upload-file/upload-file.component';
+
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthService } from 'src/app/shared/auth/auth.service';
@@ -25,8 +25,8 @@ import { DeleteTaskComponent } from './sub-task/delete-task/delete-task.componen
 import { ArchiveDialogComponent } from './sub-task/archive-dialog/archive-dialog.component';
 import { UnarchiveDialogComponent } from './sub-task/unarchive-dialog/unarchive-dialog.component';
 import { ViewImageDialogComponent } from './sub-task/view-image-dialog/view-image-dialog.component';
-import { AssignToOthersComponent } from './assign-to-others/assign-to-others.component';
-import { AssignToMeComponent } from './assign-to-me/assign-to-me.component';
+
+
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { PartialTaskCompleteDialogComponent } from './sub-task/partial-task-complete-dialog/partial-task-complete-dialog.component';
@@ -60,7 +60,7 @@ const routes: Routes = [
     TaskListComponent,
     AddTaskComponent,
     AddMembersComponent,
-    UploadFileComponent,
+   
     TaskComponent,
     CCComponent,
     MyTaskComponent,
@@ -73,8 +73,8 @@ const routes: Routes = [
     ArchiveDialogComponent,
     UnarchiveDialogComponent,
     ViewImageDialogComponent,
-    AssignToOthersComponent,
-    AssignToMeComponent,
+   
+
     PartialTaskCompleteDialogComponent,
     CompleteTaskComponent,
     TabConditionComponent
@@ -90,24 +90,7 @@ const routes: Routes = [
     MatTableModule,
     
     MatPaginatorModule,
-    // RouterModule.forChild([
-    //   {
-    //     path: 'tabs',
-    //     component: AddTaskComponent,
-    //     children: [
-    //       {
-    //         path: 'tab1',
-    //         component: AddTaskComponent,
-    //       },
-    //       {
-    //         path: 'tab2',
-    //         component: AddTaskComponent,
-    //         canDeactivate: [], 
-    //       },
-    //     ],
-    //   },
-      
-		// ]),
+    
 
     
     
@@ -124,10 +107,7 @@ const routes: Routes = [
 				path: 'add-members',
 				component: AddMembersComponent
 			},
-      {
-				path: 'upload',
-				component: UploadFileComponent
-			},
+      
       {
 				path: 'my-task',
 				component: MyTaskComponent

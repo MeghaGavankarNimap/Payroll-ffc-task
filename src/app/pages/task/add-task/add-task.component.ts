@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { MaterialModule } from 'src/app/material/material.module';
 import { MatError, MatFormFieldModule } from '@angular/material/form-field';
 import { AddMembersComponent } from '../add-members/add-members.component';
-import { UploadFileComponent } from '../upload-file/upload-file.component';
+
 import { TaskService } from 'src/app/shared/task/service/task.service';
 import { AuthInterceptor } from 'src/app/shared/auth/auth.interceptor';
 import { map } from 'rxjs/operators';
@@ -66,6 +66,7 @@ export class AddTaskComponent implements OnInit {
   userDetails: any;
   formattedDate: any;
   currentTabIndex = 0
+  selectedCurrentIndex = 0;
   @ViewChild('tabGroup') tabGroup!: MatTabGroup;
   @ViewChildren('tab') tabs: QueryList<ElementRef> | undefined;
   @ViewChild('imageFileInput', { static: false }) imageFileInput!: ElementRef;
@@ -84,21 +85,20 @@ export class AddTaskComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm()
-    // this.getLeadList();
-
-
-    // this.taskService.imageData$.subscribe((data) => {
-    //   console.log(data)
-    // this.attachFile = data;
-    // });
+   
   }
 
   change(tab: any, index: number) {
     console.log(tab.selectedIndex)
+    
     if (tab.selectedIndex != this.indexOld && confirm(' Are you sure you want to switch to the next tab without submitting the form?')) {
-      this.index = index;
+      // this.index = index;
       this.indexOld = index;
-    } else tab.selectedIndex = this.indexOld;
+      this.selectedCurrentIndex = tab.selectedIndex;
+    } else {
+      this.selectedCurrentIndex = this.indexOld;
+      tab.selectedIndex = this.indexOld;
+    }
   }
 
   initForm() {
@@ -281,31 +281,7 @@ export class AddTaskComponent implements OnInit {
   }
 
 
-  // onFileSelect(event:any){
-  //   console.log("hello" + event.target.value);
-  //   const fileType = event.target.files[0].type;
-  //   const fileSize = event.target.files[0].size; // Get the file size in bytes
-  //   const maxSize = 2 * 1024 * 1024; 
-  //   if (fileType.match(/^.*\/*$/)) {
-  //     if (fileSize <= maxSize) {
-  //       this.imageValid = false;
-  //       console.log('Image is valid.');
-
-  //       const reader = new FileReader();
-  //       reader.onload = (e: any) => {
-  //         this.url = e.target.result; // This is the Base64-encoded data URL
-  //       };
-  //       reader.readAsDataURL(event.target.files[0]);
-  //     } else {
-  //       console.log('Image file size is too large.');
-  //       this.imageValid = true;
-  //     }
-  //   } else {
-  //     window.alert('Please select a correct image format');
-  //   }
-
-
-  // }
+  
 
 
 
@@ -375,60 +351,38 @@ export class AddTaskComponent implements OnInit {
 
 
 
-  // getLeadList(){
-  // this.taskService.CustomerList(this.pageData)
-  // .pipe(map(res => {
-  //   console.log(res)
-  //   // this.customerList = res.data.Leads;
-  //   // console.log(this.customerList)
-  //   // this.leadFilter = this.customerList;
-
-  //   // console.log(this.leadFilter)
-  // }
-
-  // ))
-  // .subscribe()
-  // }
-
-
-  // submit(){
-
-  // }
-
-  // ngAfterViewInit(){
-  //  if(this.tabGroup.selected){
-  //     console.log("hjkhd")
-  //  }
-
-  // }
+ 
   
   submit() {
-    // if (this.addForm.invalid) {
-    //  this.addForm.markAllAsTouched();
-    //  console.log("it invalid")
+    console.log(this.selectedCurrentIndex);
+    
+    if (this.addForm.invalid) {
+     this.addForm.markAllAsTouched();
+     console.log("it invalid")
 
-    //   return;
-    // }
-    // else{
+      return;
+    }
+   
 
     const controls = this.addForm.controls;
   
-    if (this.tabGroup.selectedIndex==1) {
-      controls.UserDisplayIds.disable();
-    }
+   
     // if (this.addForm.invalid) {
     //   Object.keys(controls).forEach(controlName => {
     //     controls[controlName].markAsTouched();
     //   });
     //   return;
     // }
-   
-    if (this.tabGroup.selectedIndex===1) {
+
+    
+   if ( this.selectedCurrentIndex==1) {
       console.log("one")
       controls.UserDisplayIds.disable();
-      this.userId = [];
+      // this.userId = [];
       this.userId.push(this.userDetails.UserId);
+      console.log(this.userId)
       controls.UserIds.setValue(this.userId);
+      
     }
     else{
       console.log("zero")
@@ -442,7 +396,7 @@ export class AddTaskComponent implements OnInit {
     // 
     // const selectTab = this.selectedIndex;
     // const controls = this.addForm.controls;
-    controls.UserIds.setValue(this.userIds);
+    // controls.UserIds.setValue(this.userIds);
     controls.AssignedBy.setValue(this.userDetails.UserId);
 
     //  controls.Image.setValue(this.url)
@@ -485,6 +439,7 @@ export class AddTaskComponent implements OnInit {
     // }
 
   }
+}
 
 
 
@@ -510,7 +465,7 @@ export class AddTaskComponent implements OnInit {
 
 
 
-}
+
 
 
 

@@ -10,7 +10,7 @@
     <img src="assets/cancel.svg" alt="no-img" (click)="close()">
 </div>
 <mat-tab-group  #tabgroup style="margin-bottom:5px;" animationDuration="0" mat-align-tabs="start"
-(selectedIndexChange)="change(tabgroup,$event)" >
+(selectedIndexChange)="change(tabgroup,$event)" [selectedIndex]="selectedCurrentIndex">
     <mat-tab label="Assign to Others">
         <div>
            
@@ -156,9 +156,7 @@
     </mat-tab>
     <mat-tab label="Assign to Me">
         <div>
-            <div class="close-icon">
-                <img src="assets/cancel.svg" alt="no-img" (click)="close()">
-            </div>
+            
             <div>
                 <form [formGroup]="addForm">
 
@@ -202,24 +200,13 @@
                                     <input formControlName="Image" hidden />
                                     <input #imageFileInput id="imageFileInput" type="file"
                                         (change)="handleFileSelect($event.target)" hidden>
+                                        <mat-error style="color:rgb(236, 66, 95);" *ngIf="Image && Image.invalid && Image.touched">File  is required</mat-error>
+     
                                 </mat-form-field>
                                 <div class="kt-remove-input-value" (click)="removeFile()" *ngIf="displayFileName">Remove
                                 </div>
 
-                                <!-- <label class="btn btn-primary" for="img">Attach File </label>
-                                <input id="img" (change)="onFileSelect($event)" accept="*/*" formControlName="Image"
-                                    type="file">
-                                <mat-error style="color:rgb(236, 66, 95);"
-                                    *ngIf="Image && Image.invalid && Image.touched">image is required</mat-error>
-                                <mat-error style="color:rgb(236, 66, 95);" *ngIf="imageValid">File size should be less
-                                    than 2MB</mat-error> -->
-
-                                <!-- <mat-form-field class="field"> -->
-                                <!-- <mat-label>Attach File</mat-label>
-                            <input matInput formContolName="image" [value]="attachFileValue" (change)="onFileSelect($event)" accept="/*"
-                            (click)="onOpenFile()"> -->
-                                <!--                    
-                        </mat-form-field> -->
+                               
 
                             </div>
                         </div>
@@ -290,6 +277,6 @@
 <div>
     <mat-dialog-actions align="end">
         <button mat-button mat-dialog-close>Cancel</button>
-        <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="submit()" >Add</button>
+        <button mat-button  cdkFocusInitial (click)="submit()" >Add</button>
     </mat-dialog-actions>
 </div>

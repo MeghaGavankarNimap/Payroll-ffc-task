@@ -10,6 +10,8 @@ export class TaskService {
   load = new BehaviorSubject<boolean>(false)
   $load = this.load.asObservable();
   userDetails:any
+  public searchFieldClear = new BehaviorSubject<string>('');
+
 
   constructor( private http:HttpClient) { }
 
