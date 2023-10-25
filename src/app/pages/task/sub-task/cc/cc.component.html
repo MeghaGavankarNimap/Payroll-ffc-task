@@ -30,9 +30,7 @@
                     <mat-header-cell *matHeaderCellDef>Assigned Date</mat-header-cell>
                     <mat-cell *matCellDef="let task">
                        {{datePipe.transform(task.CreateDate, 'd MMM yyyy')}}
-                        <!-- {{task.CreateDate }} -->
-                        <!-- {{task.CreateDate | customDate:'0':'dd MMM yyyy'}} -->
-                        <!-- let customDate  = this.datePipe.transform(controls.TaskEndDateDisplay.value, 'd MMM yyyy hh:mm a'); -->
+                      
                     </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="DueDate">
@@ -40,13 +38,7 @@
                     <mat-cell *matCellDef="let task">
 
                         {{datePipe.transform(task.TaskEndDate, 'd MMM yyyy')}}
-                        <!-- {{task.TaskEndDate | customDate:'0':'dd MMM yyyy'}} &nbsp;&nbsp;&nbsp;&nbsp;<img
-                            *ngIf="checkDate(task.TaskEndDate,'overdue') && task.CompletionPercentage != 100"
-                            src="../../../../../../assets/media/icons/overdue.svg" width="15%" alt=""
-                            matTooltip="Overdue">
-                        <img *ngIf="checkDate(task.TaskEndDate,'duetoday') && task.CompletionPercentage != 100"
-                            src="../../../../../../assets/media/icons/duetoday.svg" width="15%" alt=""
-                            matTooltip="Due Today"> -->
+                      
                     </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="Priority">

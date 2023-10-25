@@ -109,8 +109,8 @@
        
             <div class="mat-table__bottom">
                 <!-- <mat-spinner [diameter]="20" *ngIf="dataSource.loading$ | async"></mat-spinner> -->
-                <mat-paginator [length]="100"
-               
+                <mat-paginator [length]="dataSource.paginatorTotal$ | async"
+                [pageSize]="10"
                 [pageSizeOptions]="[10, 25, 100]"
                 aria-label="Select page"></mat-paginator>
             </div>

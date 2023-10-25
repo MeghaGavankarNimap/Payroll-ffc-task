@@ -147,32 +147,7 @@ export class AssignedByMeComponent implements OnInit {
   }
 
 
-  ngDoCheck() {
-    // if (this.Data.UserIds !== this.filterData.UserIds ||
-    //   this.Data.StatusIds !== this.filterData.StatusIds ||
-    //   this.Data.Priority !== this.filterData.Priority ||
-    //   this.Data.FromDate !== this.filterData.FromDate ||
-    //   this.Data.ToDate !== this.filterData.ToDate
-    // )
-    {
-      // if (this.filterData.FromDate !== '') {
-      //   this.FromDate = this.customDatePipe.transform(this.filterData.FromDate, 0, 'MM/dd/yyyy')
-      // } else {
-      //   this.FromDate = ''
-      // }
-      // if (this.filterData.ToDate !== '') {
-      //   this.ToDate = this.customDatePipe.transform(this.filterData.ToDate, 0, 'MM/dd/yyyy')
-      // } else {
-      //   this.ToDate = ''
-      // }
-      // this.dataSource.loadAssignedByMe(this.filterData.From, this.filterData.To, this.filterData.Title,)
-      // this.Data.UserIds = this.filterData.UserIds;
-      // this.Data.StatusIds = this.filterData.StatusIds;
-      // this.Data.Priority = this.filterData.Priority;
-      // this.Data.FromDate = this.filterData.FromDate;
-      // this.Data.ToDate = this.filterData.ToDate;
-    }
-  }
+ 
 
   ngAfterViewInit() {
     const paginatorSubscriptions = merge(this.paginator.page).pipe(
@@ -205,7 +180,7 @@ export class AssignedByMeComponent implements OnInit {
   }
 
   viewCoverage(taskId: number) {
-    this.dialog.open(ViewTaskCoverageComponent, { data: taskId, width: '30rem', height: '30rem' })
+    this.dialog.open(ViewTaskCoverageComponent, { data: taskId, width: '30rem', height: '15rem' })
   }
 
 

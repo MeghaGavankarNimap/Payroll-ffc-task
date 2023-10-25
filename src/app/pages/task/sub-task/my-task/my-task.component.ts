@@ -245,7 +245,7 @@ export class MyTaskComponent implements OnInit {
  
  
   viewCoverage(taskId: number) {
-    this.dialog.open(ViewTaskCoverageComponent, { data: taskId, width: '30rem',height:'30rem' })
+    this.dialog.open(ViewTaskCoverageComponent, { data: taskId,  width: '30rem', height: '15rem' })
   }
 
  

@@ -51,7 +51,7 @@ export class CCComponent implements OnInit {
     To:'',
     Title:''
 	};
-  // @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+ 
   filterStatus: string = '';
   filterType: string = '';
   selection = new SelectionModel<TaskModel>(true, []);
@@ -159,44 +159,11 @@ export class CCComponent implements OnInit {
     this.selection.clear();
   }
 
-  // archiveTask(taskId: number) {
-  //   const _title: string = this.translate.instant('ARCHIVE TASK');
-  //   const _description: string = this.translate.instant('Do you want to archive this Task?');
-  //   const _waitDesciption: string = this.translate.instant('Task is archiving...');
-  //   const _successMessage = this.translate.instant('Task has been Archived');
-
-  //   const dialogRef = this.layoutUtilsService.confirmElement(_title, _description, _waitDesciption, 'Yes');
-  //   dialogRef.afterClosed().subscribe(res => {
-  //     if (!res) {
-  //       return;
-  //     }
-  //     this.taskService.archiveTask(taskId, true)
-  //       .pipe(map(res => {
-  //         if (res.Status == 200) {
-  //           this.toastrService.success(_successMessage);
-  //           this.selection.clear();
-  //           this.dataSource.loadCC(1, 10, '', this.userData.userId, false, this.userIds,'','');
-  //         }
-  //       }))
-  //       .subscribe();
-  //   });
-  // }
-
-  // acceptTask(taskId: number) {
-  //   const _successMessage = this.translate.instant('Task Accepted Successfully');
-  //   this.taskService.acceptTask(taskId)
-  //     .pipe(map(res => {
-  //       if (res.Status == 200) {
-  //         this.toastrService.success(_successMessage);
-  //         this.selection.clear();
-  //         this.dataSource.loadCC(1, 10, '', this.userData.userId, false, this.userIds,'','');
-  //       }
-  //     }))
-  //     .subscribe();
-  // }
+  
+  
 
   viewTaskCoverage(taskId: number) {
-    this.dialog.open(ViewTaskCoverageComponent, { data: taskId, width: '30rem',height:'30rem' })
+    this.dialog.open(ViewTaskCoverageComponent, { data: taskId,  width: '30rem', height: '15rem' })
   }
 
   ViewTaskDetails(taskId: number, isCC: boolean){
@@ -208,98 +175,15 @@ export class CCComponent implements OnInit {
   }
   
 
-  // completeTask(taskId: number) {
-  //   const _title: string = this.translate.instant('COMPLETE TASK');
-  //   const _description: string = this.translate.instant('Are you sure this Task is complete?');
-  //   const _waitDesciption: string = this.translate.instant('Task is updating...');
-  //   const _successMessage = this.translate.instant('Task Completed Successfully');
+  
+  
 
-  //   const dialogRef = this.layoutUtilsService.confirmElement(_title, _description, _waitDesciption, 'Yes');
-  //   dialogRef.afterClosed().subscribe(res => {
-  //     if (!res) {
-  //       return;
-  //     }
-  //     this.taskService.completeTask(taskId)
-  //       .pipe(map(res => {
-  //         if (res.Status == 200) {
-  //           this.toastrService.success(_successMessage);
-  //           this.selection.clear();
-  //           this.dataSource.loadCC(1, 10, '', this.userData.userId, false, this.userIds,'','');
-  //         }
-  //       }))
-  //       .subscribe();
-  //   });
-  // }
+  
 
-  // partialComplete(taskId: number, completePercentage: number) {
-  //   const _successMessage = this.translate.instant('Partial Complete Task Updated Successfully');
-  //   const params = {
-  //     TaskId: taskId,
-  //     TaskStatusValue: completePercentage
-  //   }
-  //   const dialogRef = this.dialog.open(PartialCompleteDialogComponent, { data: params, width: '450px' });
-  //   dialogRef.afterClosed().subscribe(res => {
-  //     if (!res)
-  //       return
-  //     this.toastrService.success(_successMessage);
-  //     this.dataSource.loadCC(1, 10, '', this.userData.userId, false, this.userIds,'','');
-  //   })
-  // }
+  
 
-  // deleteTask(taskId: number) {
-  //   const _title: string = this.translate.instant('DELETE TASK');
-  //   const _description: string = this.translate.instant('Do you want to delete this Task?');
-  //   const _waitDesciption: string = this.translate.instant('Task is deleting...');
-  //   const _successMessage = this.translate.instant('Task Deleted Successfully');
-
-  //   const dialogRef = this.layoutUtilsService.deleteElement(_title, _description, _waitDesciption);
-  //   dialogRef.afterClosed().subscribe(res => {
-  //     if (!res) {
-  //       return;
-  //     }
-  //     this.taskService.deleteTask(taskId)
-  //       .pipe(map(res => {
-  //         if (res.Status == 200) {
-  //           this.toastrService.success(_successMessage);
-  //           this.selection.clear();
-  //           this.dataSource.loadCC(1, 10, '', this.userData.userId, false, this.userIds,'','');
-  //         }
-  //       }))
-  //       .subscribe();
-  //   });
-  // }
-
-  // showTaskDetails(taskId: number, isCC: boolean){
-  //   const params = {
-  //     taskId: taskId,
-  //     isCC: isCC
-  //   }
-  //   const dialogRef = this.dialog.open(TaskDetailsDialogComponent, { data: params, width: '1100px' });
-  // }
-
-  // ngOnDestroy() {
-  //   this.subscriptions.forEach(el => el.unsubscribe());
-  // }
-
-  // checkDate(dueDate, dueType) {
-  //   let due = new Date(dueDate);
-  //   let currentDate = new Date();
-  //   currentDate.setHours(0, 0, 0, 0);
-  //   due.setHours(0, 0, 0, 0);
-  //   if (dueType == 'overdue') {
-  //     if (due < currentDate) {
-  //       return true
-  //     } else {
-  //       return false
-  //     }
-  //   } else if (dueType == 'duetoday') {
-  //     if (due.getTime() === currentDate.getTime()) {
-  //       return true
-  //     } else {
-  //       return false
-  //     }
-  //   }
-  // }
+  
+  
 
 
 

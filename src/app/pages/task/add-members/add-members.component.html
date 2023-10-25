@@ -12,7 +12,7 @@
     </mat-form-field>
 </div>
 <mat-form-field>
-  <mat-label>Toppings</mat-label>
+  <mat-label>Members</mat-label>
   <mat-select [formControl]="toppings" multiple>
     <mat-select-trigger>
       {{toppings.value?.[0] || ''}}
@@ -23,7 +23,7 @@
     <mat-option *ngFor="let topping of allData" [value]="topping">{{topping.Name}}</mat-option>
   </mat-select>
 </mat-form-field>
-<div class="kt-form__actions kt-form__actions--sm">
+<div class="">
   <button (click)="close()" type="button" mat-raised-button> Cancel</button>&nbsp;
   <button (click)="onSubmit()" type="button" mat-raised-button color="primary" [disabled]="viewLoading">
       Done</button>

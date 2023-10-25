@@ -5,14 +5,15 @@
 
 
 
-<div>header</div>
+<div>Add Task</div>
+<div class="close-icon">
+    <img src="assets/cancel.svg" alt="no-img" (click)="close()">
+</div>
 <mat-tab-group  #tabgroup style="margin-bottom:5px;" animationDuration="0" mat-align-tabs="start"
-(selectedIndexChange)="change(tabgroup,$event)"  >
+(selectedIndexChange)="change(tabgroup,$event)" >
     <mat-tab label="Assign to Others">
         <div>
-            <div class="close-icon">
-                <img src="assets/cancel.svg" alt="no-img" (click)="close()">
-            </div>
+           
             <div>
                 <form [formGroup]="addForm">
 
@@ -51,13 +52,13 @@
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <mat-form-field class="mat-form-field-fluid">
-                                    <input class="kt-pointer" matInput placeholder="Attach File*"
+                                    <input  matInput placeholder="Attach File*"
                                         [value]="displayFileName" (click)="openFile()" readonly />
                                     <input formControlName="Image" hidden />
                                     <input #imageFileInput id="imageFileInput" type="file"
                                         (change)="handleFileSelect($event.target)" hidden>
                                 </mat-form-field>
-                                <div class="kt-remove-input-value" (click)="removeFile()" *ngIf="displayFileName">Remove
+                                <div  (click)="removeFile()" *ngIf="displayFileName">Remove
                                 </div>
 
 <!-- 
@@ -103,7 +104,7 @@
                                 <mat-form-field class="field">
 
                                     <mat-label>Select Priority*</mat-label>
-                                    <mat-select formControlName="Priority*">
+                                    <mat-select formControlName="Priority">
                                         <mat-option value="High">High Priority</mat-option>
                                         <mat-option value="Low">Low Priority</mat-option>
                                     </mat-select>
@@ -185,7 +186,7 @@
                             <div class="form-group">
                                 <mat-form-field>
                                     <mat-label>Description*</mat-label>
-                                    <textarea matInput formControlName="Description*"></textarea>
+                                    <textarea matInput formControlName="Description"></textarea>
                                     <mat-error style="color:rgb(236, 66, 95);"
                                         *ngIf="Description && Description.invalid && Description.touched">description is
                                         required</mat-error>

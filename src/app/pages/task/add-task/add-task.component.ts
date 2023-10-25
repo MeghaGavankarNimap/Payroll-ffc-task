@@ -32,50 +32,51 @@ import { invalid } from '@angular/compiler/src/render3/view/util';
   styleUrls: ['./add-task.component.scss']
 })
 export class AddTaskComponent implements OnInit {
-  addForm!:FormGroup;
-  public attachFileValue:string | undefined;
-  value:any
-  allMembers:any
-  imageValid:any
-  url="assets/cancel.svg"
-  taskOwners:any = [];
+  addForm!: FormGroup;
+  public attachFileValue: string | undefined;
+  value: any
+  allMembers: any
+  imageValid: any
+  url = "assets/cancel.svg"
+  taskOwners: any = [];
   userIds: any = [];
+  userId: any = [];
   memberLength: number = 0;
   userLength: number = 0;
-  assignedToCount:any
+  assignedToCount: any
   current = new Date();
   isActive: boolean = true;
-  IntercomGroupIds=[]
-  result:any
+  IntercomGroupIds = []
+  result: any
   index = 0;
   indexOld = 0;
   displayFileName: string = '';
   imageName: string = '';
   imageExt: string = '';
 
-  taskOwnerCount:any
+  taskOwnerCount: any
   pageData = {
     From: 1,
     To: -1,
     Text: '',
   }
-  customerList:any
-  leadFilter:any
+  customerList: any
+  leadFilter: any
   selectedIndex: number = 0;
   userDetails: any;
- formattedDate:any;
- currentTabIndex=0
- @ViewChild('tabGroup') tabGroup!: MatTabGroup ; 
- @ViewChildren('tab') tabs: QueryList<ElementRef> | undefined;
- @ViewChild('imageFileInput', { static: false }) imageFileInput!: ElementRef;
+  formattedDate: any;
+  currentTabIndex = 0
+  @ViewChild('tabGroup') tabGroup!: MatTabGroup;
+  @ViewChildren('tab') tabs: QueryList<ElementRef> | undefined;
+  @ViewChild('imageFileInput', { static: false }) imageFileInput!: ElementRef;
 
   constructor(
-   
+
     public dialogRef: MatDialogRef<AddTaskComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private fb:FormBuilder,
-    public dialog:MatDialog,
-    private taskService:TaskService,
+    private fb: FormBuilder,
+    public dialog: MatDialog,
+    private taskService: TaskService,
     private datePipe: DatePipe,
     private customDatePipe: CustomPipePipe,
     private toastr: ToastrService
@@ -84,149 +85,139 @@ export class AddTaskComponent implements OnInit {
   ngOnInit(): void {
     this.initForm()
     // this.getLeadList();
-  
+
 
     // this.taskService.imageData$.subscribe((data) => {
     //   console.log(data)
-      // this.attachFile = data;
+    // this.attachFile = data;
     // });
   }
-  
+
   change(tab: any, index: number) {
+    console.log(tab.selectedIndex)
     if (tab.selectedIndex != this.indexOld && confirm(' Are you sure you want to switch to the next tab without submitting the form?')) {
       this.index = index;
       this.indexOld = index;
     } else tab.selectedIndex = this.indexOld;
   }
-    
-    initForm(){
-      const userDetailsJson = localStorage.getItem('userdetails');
 
-
-   
-  
-        this.userDetails = JSON.parse(userDetailsJson||'');
-        console.log(this.userDetails.UserId)
-        const userId = this.userDetails.UserId;
-
-      
-  
-      this.addForm=this.fb.group({
-        Id: [''],
-        AssignedBy: [''],
-        AssignedToUserId: [''],
-        AssignedDate: [''],
-        CompletedDate: [''],
-         IntercomGroupIds: [''],
-         Latitude: [''],
-        Title:['',Validators.compose([Validators.required,Validators.pattern(/^[A-Za-z ]+$/)])],
-        Description:['',Validators.compose([Validators.required])],
-        Image:['',Validators.compose([Validators.required])],
-   
-        IsActive: [this.isActive],
-        Priority:['',Validators.compose([Validators.required])],
-     
-        LeadId:[''],
-
-        TaskEndDateDisplay: ['', Validators.required],
-        TaskEndDate: [''],
-        UserDisplayIds:['',Validators.compose([Validators.required])],
-        UserIds:[''],
-        TaskDisplayOwners:['',Validators.compose([Validators.required])],
-        TaskOwners:[[]],
-        Location: [''],
-Longitude: [''],
-MultimediaData: [''],
-MultimediaExtension:[''],
-MultimediaFileName: [''],
-MultimediaType: [''],
-TaskStatus: ['']
-        
-      })
-
-      
-     
-     
-     
-      
-
-    }
-
-
-   
-
-    get Title(){
-      return this.addForm.get('Title')
-    
-
-    }
-    get Description(){
-      return this.addForm.get('Description')
-    
-
-    }
-    get Image(){
-      return this.addForm.get('Image')
-    
-
-    }
-    get leadCustName(){
-      return this.addForm.get('leadCustName')
-    
-
-    }
-    get picker(){
-      return this.addForm.get('picker')
-    
-
-    }
-    get Priority(){
-      return this.addForm.get('Priority')
-    
-
-    }
-    get users(){
-      return this.addForm.get('users')
-    
-
-    }
-    get ccMembers(){
-      return this.addForm.get('ccMembers')
-    
-
-    }
-
-    get UserDisplayIds(){
-      return this.addForm.get('UserDisplayIds')
-    }
+  initForm() {
+    const userDetailsJson = localStorage.getItem('userdetails');
 
 
 
-    get TaskDisplayOwners(){
-      return this.addForm.get('TaskDisplayOwners')
-    }
 
-    get TaskEndDateDisplay(){
-      return this.addForm.get('TaskEndDateDisplay')
-    }
-   
-
-// ...
+    this.userDetails = JSON.parse(userDetailsJson || '');
+    console.log(this.userDetails.UserId)
+    const userId = this.userDetails.UserId;
 
 
 
-    // showNumberError = false;
+    this.addForm = this.fb.group({
+      Id: [''],
+      AssignedBy: [''],
+      AssignedToUserId: [''],
+      AssignedDate: [''],
+      CompletedDate: [''],
+      IntercomGroupIds: [''],
+      Latitude: [''],
+      Title: ['', Validators.compose([Validators.required, Validators.pattern(/^[A-Za-z ]+$/)])],
+      Description: ['', Validators.compose([Validators.required])],
+      Image: ['', Validators.compose([Validators.required])],
 
-// onTitleInput() {
-//   const titleValue = this.addForm.get('Title');
-//  if (titleValue) {
-//     const value = titleValue.value;
-//     const containsNumber = /[0-9]/.test(value);
-//     this.showNumberError = containsNumber;
-//    this. showNumberError=true
-//   }
-// } 
-  close():void{
+      IsActive: [this.isActive],
+      Priority: ['', Validators.compose([Validators.required])],
+
+      LeadId: [''],
+
+      TaskEndDateDisplay: ['', Validators.required],
+      TaskEndDate: [''],
+      UserDisplayIds: ['', Validators.compose([Validators.required])],
+      UserIds: [''],
+      TaskDisplayOwners: ['', Validators.compose([Validators.required])],
+      TaskOwners: [[]],
+      Location: [''],
+      Longitude: [''],
+      MultimediaData: [''],
+      MultimediaExtension: [''],
+      MultimediaFileName: [''],
+      MultimediaType: [''],
+      TaskStatus: ['']
+
+    })
+
+
+
+
+
+
+
+  }
+
+
+
+
+  get Title() {
+    return this.addForm.get('Title')
+
+
+  }
+  get Description() {
+    return this.addForm.get('Description')
+
+
+  }
+  get Image() {
+    return this.addForm.get('Image')
+
+
+  }
+  get leadCustName() {
+    return this.addForm.get('leadCustName')
+
+
+  }
+  get picker() {
+    return this.addForm.get('picker')
+
+
+  }
+  get Priority() {
+    return this.addForm.get('Priority')
+
+
+  }
+  get users() {
+    return this.addForm.get('users')
+
+
+  }
+  get ccMembers() {
+    return this.addForm.get('ccMembers')
+
+
+  }
+
+  get UserDisplayIds() {
+    return this.addForm.get('UserDisplayIds')
+  }
+
+
+
+  get TaskDisplayOwners() {
+    return this.addForm.get('TaskDisplayOwners')
+  }
+
+  get TaskEndDateDisplay() {
+    return this.addForm.get('TaskEndDateDisplay')
+  }
+
+
+  // ...
+
+
+
+  close(): void {
     return this.dialogRef.close();
   }
 
@@ -240,7 +231,7 @@ TaskStatus: ['']
   //     console.log(res)
   //     this.attachFileValue = res.name;
   //     // if (this.attachFileValue) {
-        
+
   //     // }
   //   })
 
@@ -250,17 +241,16 @@ TaskStatus: ['']
   }
 
   handleFileSelect(inputValue: any): void {
-    if (inputValue.files[0] && inputValue.files[0].size < 5000000) {
+    if (inputValue.files[0] && inputValue.files[0].size < 2000000) {
       var file = inputValue.files[0];
       this.displayFileName = file.name;
       this.imageName = this.displayFileName.replace(/\\/g, "/");
       const imageNameMatch = /[^/]*$/.exec(this.imageName);
-this.imageName = imageNameMatch ? imageNameMatch[0] : '';
+      this.imageName = imageNameMatch ? imageNameMatch[0] : '';
 
-const imageExtMatch = /[^.]*$/.exec(this.imageName);
-this.imageExt = imageExtMatch ? imageExtMatch[0] : '';
-      // this.imageName = (/[^/]*$/.exec(this.imageName)[0]);
-      // this.imageExt = (/[^.]*$/.exec(this.imageName)[0]);
+      const imageExtMatch = /[^.]*$/.exec(this.imageName);
+      this.imageExt = imageExtMatch ? imageExtMatch[0] : '';
+
       this.imageName = this.imageName.substring(0, this.imageName.lastIndexOf('.'));
       var reader = new FileReader();
       reader.onload = (e: any) => {
@@ -273,7 +263,7 @@ this.imageExt = imageExtMatch ? imageExtMatch[0] : '';
       }
       reader.readAsBinaryString(file);
     } else if (inputValue.files[0] && inputValue.files[0].size > 2000000) {
-      // this.toastrService.error('File size is greater than 5MB');
+      this.toastr.error('File size is greater than 2MB');
       // this.chRef.detectChanges();
     }
   }
@@ -290,7 +280,7 @@ this.imageExt = imageExtMatch ? imageExtMatch[0] : '';
     });
   }
 
-  
+
   // onFileSelect(event:any){
   //   console.log("hello" + event.target.value);
   //   const fileType = event.target.files[0].type;
@@ -300,7 +290,7 @@ this.imageExt = imageExtMatch ? imageExtMatch[0] : '';
   //     if (fileSize <= maxSize) {
   //       this.imageValid = false;
   //       console.log('Image is valid.');
-        
+
   //       const reader = new FileReader();
   //       reader.onload = (e: any) => {
   //         this.url = e.target.result; // This is the Base64-encoded data URL
@@ -313,75 +303,19 @@ this.imageExt = imageExtMatch ? imageExtMatch[0] : '';
   //   } else {
   //     window.alert('Please select a correct image format');
   //   }
-           
-        
+
+
   // }
+
+
+
 
 
   
- 
 
-  //   openMembers(controlName:any): void {
-  //     const controls = this.addForm.controls;
-  //     let controlname;
-  //     let params;
-  //     if (controlName == 'UserIds') {
-  //       controls.UserDisplayIds.clearValidators();
-  //       controls.UserDisplayIds.updateValueAndValidity();
-  //       controlname = controls.UserDisplayIds;}
-  //       // params = { usersIds: this.userIds, controlname: 'UserIds', Action: this.data.Action };}
-  //       // else {
-  //       //   controlname = controls.TaskDisplayOwners;
-  //       //   params = { usersIds: this.taskOwners, controlname: 'TaskOwner', Action: this.data.Action };
-  //       // }
-
-  //     const dialogRef = this.dialog.open(AddMembersComponent,{  width: '400px' ,height:'30rem'} 
-       
-  //     );
-
-  //     dialogRef.afterClosed().subscribe((allUSer )=> {
-  //       // console.log(allUSer)
-  //       this.allMembers=allUSer
-
-  //       if (controlName == 'UserIds') {
-  //         this.userIds = [];
-  //         this.assignedToCount = 0
-  //         allUSer.forEach((result:any) => {
-         
-  //           if (!this.userIds.includes(result.UserId)) {
-  //             this.userIds.push(result.UserId); 
-  //             this.assignedToCount++; 
-  //           }})
-        
-  //       }
-  //       else {
-  //         this.taskOwners = [];
-  //         this.taskOwnerCount = 0
-  //         allUSer.forEach((result:any) => {
-  //           if (!this.taskOwners.includes(result)){
-  //             this.taskOwnerCount+=1;
-  //               this.taskOwners.push(result);
-  //           }
-  //       console.log(this.taskOwners)
-  //       console.log(this.taskOwnerCount)
-  //     }
-      
-  //     )
-  //   }
-  // }
-
-
-  // // save(val:any){
-  // //   val(controlname)=this.url
-  // //   this.form(val).sub
-  // // }
-
-
-  //     )}
-
-  openMembers(controlName:any) {
+  openMembers(controlName: any) {
     const controls = this.addForm.controls;
-    let controlname:any;
+    let controlname: any;
     let params;
     if (controlName == 'UserIds') {
       controls.UserDisplayIds.clearValidators();
@@ -400,24 +334,24 @@ this.imageExt = imageExtMatch ? imageExtMatch[0] : '';
       if (controlName == 'UserIds') {
         this.userIds = [];
         this.assignedToCount = 0
-        allUSer.forEach((result:any) => {
-         
-            this.userIds.push(result.UserId);
-            this.assignedToCount+=1;
-          
+        allUSer.forEach((result: any) => {
+
+          this.userIds.push(result.UserId);
+          this.assignedToCount += 1;
+
         })
-       
+
       }
       else {
         this.taskOwners = [];
         this.taskOwnerCount = 0
         allUSer.forEach((result: any) => {
-          
+
           this.taskOwners.push(result);
-          
-          this.taskOwnerCount+=1;
-          
-          
+
+          this.taskOwnerCount += 1;
+
+
         })
         this.addForm.get('TaskOwners')?.patchValue(this.taskOwners);
         console.log(this.taskOwners)
@@ -441,215 +375,142 @@ this.imageExt = imageExtMatch ? imageExtMatch[0] : '';
 
 
 
-      // getLeadList(){
-        // this.taskService.CustomerList(this.pageData)
-        // .pipe(map(res => {
-        //   console.log(res)
-        //   // this.customerList = res.data.Leads;
-        //   // console.log(this.customerList)
-        //   // this.leadFilter = this.customerList;
-         
-        //   // console.log(this.leadFilter)
-        // }
+  // getLeadList(){
+  // this.taskService.CustomerList(this.pageData)
+  // .pipe(map(res => {
+  //   console.log(res)
+  //   // this.customerList = res.data.Leads;
+  //   // console.log(this.customerList)
+  //   // this.leadFilter = this.customerList;
+
+  //   // console.log(this.leadFilter)
+  // }
+
+  // ))
+  // .subscribe()
+  // }
+
+
+  // submit(){
+
+  // }
+
+  // ngAfterViewInit(){
+  //  if(this.tabGroup.selected){
+  //     console.log("hjkhd")
+  //  }
+
+  // }
   
-        // ))
-        // .subscribe()
-      // }
+  submit() {
+    // if (this.addForm.invalid) {
+    //  this.addForm.markAllAsTouched();
+    //  console.log("it invalid")
+
+    //   return;
+    // }
+    // else{
+
+    const controls = this.addForm.controls;
+  
+    if (this.tabGroup.selectedIndex==1) {
+      controls.UserDisplayIds.disable();
+    }
+    // if (this.addForm.invalid) {
+    //   Object.keys(controls).forEach(controlName => {
+    //     controls[controlName].markAsTouched();
+    //   });
+    //   return;
+    // }
+   
+    if (this.tabGroup.selectedIndex===1) {
+      console.log("one")
+      controls.UserDisplayIds.disable();
+      this.userId = [];
+      this.userId.push(this.userDetails.UserId);
+      controls.UserIds.setValue(this.userId);
+    }
+    else{
+      console.log("zero")
+      controls.UserDisplayIds.setValidators(Validators.required);
+      controls.UserDisplayIds.updateValueAndValidity();
+      controls.UserIds.setValue(this.userIds);
+
+    }
 
 
-      // submit(){
-        
-      // }
+    // 
+    // const selectTab = this.selectedIndex;
+    // const controls = this.addForm.controls;
+    controls.UserIds.setValue(this.userIds);
+    controls.AssignedBy.setValue(this.userDetails.UserId);
 
-      // onSubmit() {
-      //   const selectTab = this.selectedIndex;
-      //   if (this.data.Action == 'Add') {
-      //     const controls = this.addForm.controls;
-      //     if (this.selectedIndex == 1) {
-      //       controls.UserDisplayIds.disable();
-      //     }
-      //     if (this.addForm.invalid) {
-      //       Object.keys(controls).forEach(controlName => {
-      //         controls[controlName].markAsTouched();
-      //       });
-      //       return;
-      //     }
-      //     if (this.selectedIndex == 0) {
-      //       controls.UserDisplayIds.setValidators(Validators.required);
-      //       controls.UserDisplayIds.updateValueAndValidity();
-      //       controls.UserIds.setValue(this.userIds);
-      //     }
-      //     if (this.selectedIndex == 1) {
-      //       controls.UserDisplayIds.disable();
-      //       this.userIds = [];
-      //       this.userIds.push(this.data.UserId);
-      //       controls.UserIds.setValue(this.userIds);
-      //     }
-      //     controls.TaskOwners.setValue(this.taskOwners);
-      //     let imageData = controls.Image.value;
-      //     controls.MultimediaData.setValue(imageData);
-      //     // controls.MultimediaExtension.setValue(this.imageExt);
-      //     // controls.MultimediaFileName.setValue(this.imageName);
-    
-      //     // if (this.imageExt == 'jpeg' || this.imageExt == 'JPEG' || this.imageExt == 'jpg' ||
-      //     //   this.imageExt == 'JPG' || this.imageExt == 'png' || this.imageExt == 'PNG' || this.imageExt == 'svg'
-      //     //   || this.imageExt == 'SVG') {
-      //     //   controls.MultimediaType.setValue('I');
-      //     // }
-      //     // else {
-      //     //   if (this.imageExt) {
-      //     //     controls.MultimediaType.setValue('D');
-      //     //   } else {
-      //     //     controls.MultimediaType.setValue('');
-      //     //   }
-      //     // }
-    
-      //     // let customDate = this.customDatePipe.transform(controls.TaskEndDateDisplay.value, 0, 'd MMM yyyy hh:mm a')
-      //     // controls.TaskEndDate.setValue(customDate);
+    //  controls.Image.setValue(this.url)
+    let imageData = controls.Image.value;
+    controls.MultimediaData.setValue(imageData);
+    controls.MultimediaExtension.setValue(this.imageExt);
+    controls.MultimediaFileName.setValue(this.imageName);
 
-      //     // const date = new Date(this.TaskEndDateDisplay);
-       
-      //     let customDate  = this.datePipe.transform(controls.TaskEndDateDisplay.value, 'd MMM y h:mm a');
-      //    console.log(customDate)
-      //    controls.TaskEndDate.setValue(customDate);
-      //     // this.viewLoading = true;
-      //     this.taskService.addTask(this.addForm.value)
-      //       .pipe(map(res => {
-      //         if (res.Status == 200) {
-      //           this.dialogRef.close({ res, selectTab });
-      //           // this.viewLoading = false;
-      //         }
-    
-      //       })).subscribe();
-      //   }
-      
-      // }
-      submit() {
-        // if (this.addForm.invalid) {
-        //  this.addForm.markAllAsTouched();
-        //  console.log("it invalid")
-
-        //   return;
-        // }
-        // else{
-
-        const controls = this.addForm.controls;
-      if (this.selectedIndex == 1) {
-        controls.UserDisplayIds.disable();
+    if (this.imageExt == 'jpeg' || this.imageExt == 'JPEG' || this.imageExt == 'jpg' ||
+      this.imageExt == 'JPG' || this.imageExt == 'png' || this.imageExt == 'PNG' || this.imageExt == 'svg'
+      || this.imageExt == 'SVG') {
+      controls.MultimediaType.setValue('I');
+    }
+    else {
+      if (this.imageExt) {
+        controls.MultimediaType.setValue('D');
+      } else {
+        controls.MultimediaType.setValue('');
       }
-      // if (this.addForm.invalid) {
-      //   Object.keys(controls).forEach(controlName => {
-      //     controls[controlName].markAsTouched();
-      //   });
-      //   return;
-      // }
-      if (this.selectedIndex == 0) {
-        console.log("zero")
-        controls.UserDisplayIds.setValidators(Validators.required);
-        controls.UserDisplayIds.updateValueAndValidity();
-        controls.UserIds.setValue(this.userIds);
-      }
-      if (this.selectedIndex == 1) {
-        console.log("one")
-        controls.UserDisplayIds.disable();
-        this.userIds = [];
-        this.userIds.push(this.userDetails.UserId);
-        controls.UserIds.setValue(this.userIds);
-      }
-
-
-      // 
-        const selectTab = this.selectedIndex;
-          // const controls = this.addForm.controls;
-          controls.UserIds.setValue(this.userIds);
-          controls.AssignedBy.setValue(this.userDetails.UserId);
-      
-      //  controls.Image.setValue(this.url)
-      let imageData = controls.Image.value;
-      controls.MultimediaData.setValue(imageData);
-      controls.MultimediaExtension.setValue(this.imageExt);
-      controls.MultimediaFileName.setValue(this.imageName);
-
-      if (this.imageExt == 'jpeg' || this.imageExt == 'JPEG' || this.imageExt == 'jpg' ||
-        this.imageExt == 'JPG' || this.imageExt == 'png' || this.imageExt == 'PNG' || this.imageExt == 'svg'
-        || this.imageExt == 'SVG') {
-        controls.MultimediaType.setValue('I');
-      }
-      else {
-        if (this.imageExt) {
-          controls.MultimediaType.setValue('D');
-        } else {
-          controls.MultimediaType.setValue('');
-        }
-      }
-
-      
-          
-          
-    
-        
-          let customDate  = this.datePipe.transform(controls.TaskEndDateDisplay.value, 'd MMM yyyy hh:mm a');
-          console.log(customDate)
-          controls.TaskEndDate.setValue(customDate);
-          this.taskService.addTask(this.addForm.value)
-        
-            .pipe(map(res => {
-             
-                this.dialogRef.close({ res });
-                console.log(res)
-                this.toastr.success('success');
-              
-    
-            })).subscribe();
-          // }
-
-      }
+    }
 
 
 
 
 
-      // onTabChange(event: MatTabChangeEvent) {
-    
-      //   if (event.index === 1) {
-         
-      //     const dialogRef = this.dialog.open(TabConditionComponent);
-    
-          
-      //     dialogRef.afterClosed().subscribe(result => {
-      //       if (result) {
-              
-              
-      //       } else {
-             
-      //       }
-      //     });
-      //   }
 
-        onTabChange(event: MatTabChangeEvent) {
-          if (event.index === 1) {
-            const dialogRef = this.dialog.open(TabConditionComponent);
-        
-            dialogRef.afterClosed().subscribe(result => {
-              if (!result) {
-               
-                this.currentTabIndex = 0;
-              }
-            });
-          } else {
-       
-            this.currentTabIndex = event.index;
-          }
+    let customDate = this.datePipe.transform(controls.TaskEndDateDisplay.value, 'd MMM yyyy hh:mm a');
+    console.log(customDate)
+    controls.TaskEndDate.setValue(customDate);
+    this.taskService.addTask(this.addForm.value)
+
+      .pipe(map(res => {
+
+        this.dialogRef.close({ res });
+        console.log(res)
+        this.toastr.success('Task added successfully');
+
+
+      })).subscribe();
+    // }
+
+  }
+
+
+
+
+
+  // onTabChange(event: MatTabChangeEvent) {
+
+  //   if (event.index === 1) {
+
+  //     const dialogRef = this.dialog.open(TabConditionComponent);
+
+
+  //     dialogRef.afterClosed().subscribe(result => {
+  //       if (result) {
+
+
+  //       } else {
+
+  //       }
+  //     });
+  //   }
+
 
 
 
 }
- 
 
-}
-    
 
-function preventTabChange(event: MatTabChangeEvent, Event: { new(type: string, eventInitDict?: EventInit | undefined): Event; prototype: Event; readonly NONE: 0; readonly CAPTURING_PHASE: 1; readonly AT_TARGET: 2; readonly BUBBLING_PHASE: 3; }, tabToPrevent: any, number: any) {
-  throw new Error('Function not implemented.');
-}
 
