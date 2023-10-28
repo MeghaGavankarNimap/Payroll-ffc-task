@@ -92,7 +92,7 @@ export class AddTaskComponent implements OnInit {
     console.log(tab.selectedIndex)
     
     if (tab.selectedIndex != this.indexOld && confirm(' Are you sure you want to switch to the next tab without submitting the form?')) {
-      // this.index = index;
+     
       this.indexOld = index;
       this.selectedCurrentIndex = tab.selectedIndex;
     } else {

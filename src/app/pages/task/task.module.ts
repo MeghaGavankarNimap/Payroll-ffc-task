@@ -37,19 +37,6 @@ import { TabConditionComponent } from './tab-condition/tab-condition.component';
 
 
 
-const routes: Routes = [
-	{
-		path: "",
-		component: TaskComponent,
-		children: [
-			{
-				path: "",
-				component: TaskComponent,
-			},
-		],
-	},
-];
-
 
 
 
